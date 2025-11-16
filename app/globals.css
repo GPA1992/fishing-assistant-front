@@ -24,7 +24,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-rubik);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -41,7 +41,7 @@ body {
     radial-gradient(circle at 50% 80%, var(--color-gradient-3) 0, transparent 22%),
     var(--color-background);
   color: var(--color-text);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-rubik), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
 }
 
