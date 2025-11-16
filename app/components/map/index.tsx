@@ -122,10 +122,9 @@ export default function Map({
   }`;
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-emerald-100/80 bg-white/85 shadow-2xl shadow-emerald-900/10 backdrop-blur">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-emerald-100/60 via-sky-50 to-amber-100/60" />
+    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-emerald-900/10">
       <div className="pointer-events-none absolute left-4 right-4 top-4 z-20 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900">
-        <span className="inline-flex items-center gap-2 rounded-full bg-emerald-100/85 px-3 py-1 shadow-sm shadow-emerald-900/10">
+        <span className="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-3 py-1 shadow-sm shadow-emerald-900/10 ring-1 ring-emerald-200">
           <svg
             aria-hidden="true"
             className="h-3.5 w-3.5"
@@ -141,7 +140,7 @@ export default function Map({
           </svg>
           Toque
         </span>
-        <span className="inline-flex items-center gap-2 rounded-full bg-white/85 px-3 py-1 text-slate-700 shadow-sm shadow-emerald-900/10">
+        <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-slate-800 shadow-sm shadow-emerald-900/10 ring-1 ring-slate-200/80">
           <svg
             aria-hidden="true"
             className="h-3.5 w-3.5"
@@ -185,8 +184,8 @@ export default function Map({
       </MapContainer>
 
       <div className="pointer-events-none absolute inset-x-4 bottom-4 z-20 flex flex-wrap gap-2 text-xs font-medium text-emerald-900">
-        <span className="inline-flex items-center gap-2 rounded-2xl bg-white/85 px-4 py-2 shadow-md shadow-emerald-900/10 ring-1 ring-emerald-100/90">
-          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+        <span className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 shadow-md shadow-emerald-900/10 ring-1 ring-emerald-200">
+          <span className="h-2 w-2 rounded-full bg-emerald-600" />
           Pronto para marcar
         </span>
       </div>

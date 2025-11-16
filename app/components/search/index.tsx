@@ -104,8 +104,7 @@ export default function Search() {
   }, [trimmedTerm]);
 
   return (
-    <section className="relative isolate rounded-3xl border border-emerald-100/80 bg-white/95 shadow-xl shadow-emerald-900/10 backdrop-blur">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-emerald-100/70 via-sky-50 to-amber-50 opacity-90" />
+    <section className="relative rounded-3xl border border-slate-200 bg-white shadow-xl shadow-emerald-900/10">
       <div className="relative space-y-4 p-4 sm:p-5">
         <div className="flex items-center gap-2">
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-800 shadow-inner shadow-emerald-900/10">
@@ -154,7 +153,7 @@ export default function Search() {
               onChange={(event) => setTerm(event.target.value)}
               onFocus={() => setOpen(trimmedTerm.length > 0)}
               placeholder="Cidade, rio ou lago"
-              className="w-full rounded-2xl border border-emerald-100/90 bg-white/95 px-4 py-3 pl-12 text-base text-slate-900 shadow-inner shadow-emerald-900/5 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-200 placeholder:text-slate-400"
+              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pl-12 text-base text-slate-900 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 placeholder:text-slate-500"
             />
             {isFetching && (
               <div className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-emerald-700">
@@ -163,7 +162,7 @@ export default function Search() {
             )}
 
             {open && (
-              <ul className="absolute left-0 right-0 top-[110%] z-20 max-h-60 overflow-y-auto rounded-2xl border border-emerald-100 bg-white/95 shadow-xl shadow-emerald-900/10 backdrop-blur">
+              <ul className="absolute left-0 right-0 top-[110%] z-20 max-h-60 overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-xl shadow-emerald-900/10">
                 {results.length === 0 && !isFetching && (
                   <li className="px-4 py-3 text-sm text-slate-600">
                     Nada encontrado
@@ -172,7 +171,7 @@ export default function Search() {
                 {results.map((item) => (
                   <li
                     key={item.id}
-                    className="border-b border-emerald-50 last:border-none"
+                    className="border-b border-slate-100 last:border-none"
                   >
                     <button
                       type="button"
@@ -181,7 +180,7 @@ export default function Search() {
                         setTerm("");
                         setOpen(false);
                       }}
-                      className="flex w-full items-center gap-2 px-4 py-3 text-left transition hover:bg-emerald-50/70 active:bg-emerald-100/80"
+                      className="flex w-full items-center gap-2 px-4 py-3 text-left transition hover:bg-emerald-50 active:bg-emerald-100"
                     >
                       <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
                         <svg
@@ -212,7 +211,7 @@ export default function Search() {
         </div>
 
         {selected && (
-          <div className="flex items-center gap-2 rounded-2xl bg-emerald-50/90 px-4 py-3 text-sm text-emerald-900 ring-1 ring-emerald-100">
+          <div className="flex items-center gap-2 rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-900 ring-1 ring-emerald-200">
             <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
               <svg
                 aria-hidden="true"
