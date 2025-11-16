@@ -104,10 +104,10 @@ export default function Search() {
   }, [trimmedTerm]);
 
   return (
-    <section className="relative rounded-3xl border border-slate-200 bg-white shadow-xl shadow-emerald-900/10">
+    <section className="theme-card relative rounded-3xl shadow-xl shadow-emerald-900/10">
       <div className="relative space-y-4 p-4 sm:p-5">
         <div className="flex items-center gap-2">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-800 shadow-inner shadow-emerald-900/10">
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10">
             <svg
               aria-hidden="true"
               className="h-5 w-5"
@@ -124,7 +124,9 @@ export default function Search() {
               <circle cx="12" cy="11" r="2" />
             </svg>
           </span>
-          <h2 className="text-base font-semibold text-slate-900">Destino</h2>
+          <h2 className="text-base font-semibold text-[var(--color-primary-strong)]">
+            Destino
+          </h2>
         </div>
 
         <div className="relative w-full">
@@ -132,7 +134,7 @@ export default function Search() {
             Buscar
           </label>
           <div className="relative">
-            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-emerald-700/70">
+            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-[var(--color-primary)] opacity-80">
               <svg
                 aria-hidden="true"
                 className="h-5 w-5"
@@ -153,25 +155,25 @@ export default function Search() {
               onChange={(event) => setTerm(event.target.value)}
               onFocus={() => setOpen(trimmedTerm.length > 0)}
               placeholder="Cidade, rio ou lago"
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 pl-12 text-base text-slate-900 shadow-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 placeholder:text-slate-500"
+              className="theme-input w-full rounded-2xl border-[var(--color-primary-strong)] bg-[var(--color-surface)] px-4 py-3 pl-12 text-base text-[var(--color-primary-strong)] shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition placeholder:opacity-80"
             />
             {isFetching && (
-              <div className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-emerald-700">
+              <div className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-[var(--color-primary)]">
                 buscando...
               </div>
             )}
 
             {open && (
-              <ul className="absolute left-0 right-0 top-[110%] z-20 max-h-60 overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-xl shadow-emerald-900/10">
+              <ul className="absolute left-0 right-0 top-[110%] z-20 max-h-60 overflow-y-auto rounded-2xl border border-[var(--color-primary)] bg-[var(--color-surface)] shadow-xl shadow-emerald-900/10">
                 {results.length === 0 && !isFetching && (
-                  <li className="px-4 py-3 text-sm text-slate-600">
+                  <li className="px-4 py-3 text-sm text-[var(--color-muted)]">
                     Nada encontrado
                   </li>
                 )}
                 {results.map((item) => (
                   <li
                     key={item.id}
-                    className="border-b border-slate-100 last:border-none"
+                    className="border-b border-[var(--color-border)] last:border-none"
                   >
                     <button
                       type="button"
@@ -180,9 +182,9 @@ export default function Search() {
                         setTerm("");
                         setOpen(false);
                       }}
-                      className="flex w-full items-center gap-2 px-4 py-3 text-left transition hover:bg-emerald-50 active:bg-emerald-100"
+                      className="flex w-full items-center gap-2 px-4 py-3 text-left transition hover:bg-[var(--color-highlight)] active:bg-[var(--color-accent)]"
                     >
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)]">
                         <svg
                           aria-hidden="true"
                           className="h-4 w-4"
@@ -199,7 +201,7 @@ export default function Search() {
                           <circle cx="12" cy="11" r="2" />
                         </svg>
                       </span>
-                      <span className="text-sm font-medium text-slate-900">
+                      <span className="text-sm font-medium text-[var(--color-text)]">
                         {item.name}
                       </span>
                     </button>
@@ -211,8 +213,8 @@ export default function Search() {
         </div>
 
         {selected && (
-          <div className="flex items-center gap-2 rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-900 ring-1 ring-emerald-200">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
+          <div className="flex items-center gap-2 rounded-2xl bg-[var(--color-highlight)] px-4 py-3 text-sm text-[var(--color-text)] ring-1 ring-[var(--color-border)]">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)]">
               <svg
                 aria-hidden="true"
                 className="h-4 w-4"

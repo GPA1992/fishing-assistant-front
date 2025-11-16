@@ -2,8 +2,23 @@
 @import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #f0f7f4;
-  --foreground: #0f172a;
+  --color-background: #d0e6a6;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f2f7e5;
+  --color-border: #d5dfc5;
+  --color-text: #1f2f33;
+  --color-muted: #4b6670;
+  --color-primary: #5b818e;
+  --color-primary-strong: #234257;
+  --color-accent: #bfd37a;
+  --color-accent-strong: #89b2ae;
+  --color-highlight: #e4f1c5;
+  --color-gradient-1: #d0e6a6;
+  --color-gradient-2: #89b2ae;
+  --color-gradient-3: #bfd37a;
+
+  --background: var(--color-background);
+  --foreground: var(--color-text);
 }
 
 @theme inline {
@@ -21,11 +36,11 @@
 }
 
 body {
-  background: radial-gradient(circle at 10% 20%, #d2f2df 0, transparent 25%),
-    radial-gradient(circle at 90% 10%, #d1e8ff 0, transparent 20%),
-    radial-gradient(circle at 50% 80%, #ffe9c7 0, transparent 22%),
-    var(--background);
-  color: var(--foreground);
+  background: radial-gradient(circle at 10% 20%, var(--color-gradient-1) 0, transparent 25%),
+    radial-gradient(circle at 90% 10%, var(--color-gradient-2) 0, transparent 20%),
+    radial-gradient(circle at 50% 80%, var(--color-gradient-3) 0, transparent 22%),
+    var(--color-background);
+  color: var(--color-text);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
 }
@@ -33,4 +48,32 @@ body {
 ::selection {
   background: #22c55e1f;
   color: inherit;
+}
+
+.theme-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.theme-input {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.theme-input::placeholder {
+  color: var(--color-muted);
+}
+
+.theme-input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 45%, transparent);
+}
+
+.theme-pill {
+  background-color: var(--color-accent);
+  color: var(--color-primary-strong);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 60%, var(--color-border) 40%);
 }

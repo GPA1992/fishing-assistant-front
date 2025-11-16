@@ -122,9 +122,9 @@ export default function Map({
   }`;
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-emerald-900/10">
-      <div className="pointer-events-none absolute left-4 right-4 top-4 z-20 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900">
-        <span className="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-3 py-1 shadow-sm shadow-emerald-900/10 ring-1 ring-emerald-200">
+    <div className="theme-card relative overflow-hidden rounded-3xl shadow-2xl shadow-emerald-900/10">
+      <div className="pointer-events-none absolute left-4 right-4 top-4 z-20 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-primary-strong)]">
+        <span className="inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-3 py-1 text-[var(--color-primary-strong)] shadow-sm shadow-emerald-900/10 ring-1 ring-[var(--color-border)]">
           <svg
             aria-hidden="true"
             className="h-3.5 w-3.5"
@@ -140,7 +140,7 @@ export default function Map({
           </svg>
           Toque
         </span>
-        <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-slate-800 shadow-sm shadow-emerald-900/10 ring-1 ring-slate-200/80">
+        <span className="inline-flex items-center gap-2 rounded-full bg-[var(--color-surface)] px-3 py-1 text-[var(--color-text)] shadow-sm shadow-emerald-900/10 ring-1 ring-[var(--color-border)]">
           <svg
             aria-hidden="true"
             className="h-3.5 w-3.5"
@@ -163,7 +163,6 @@ export default function Map({
         zoom={zoom}
         scrollWheelZoom
         className={mapContainerClassName}
-        style={{ width: "100%" }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -183,9 +182,9 @@ export default function Map({
         />
       </MapContainer>
 
-      <div className="pointer-events-none absolute inset-x-4 bottom-4 z-20 flex flex-wrap gap-2 text-xs font-medium text-emerald-900">
-        <span className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 shadow-md shadow-emerald-900/10 ring-1 ring-emerald-200">
-          <span className="h-2 w-2 rounded-full bg-emerald-600" />
+      <div className="pointer-events-none absolute inset-x-4 bottom-4 z-20 flex flex-wrap gap-2 text-xs font-medium text-[var(--color-primary-strong)]">
+        <span className="inline-flex items-center gap-2 rounded-2xl bg-[var(--color-surface)] px-4 py-2 shadow-md shadow-emerald-900/10 ring-1 ring-[var(--color-accent)]">
+          <span className="h-2 w-2 rounded-full bg-[var(--color-primary)]" />
           Pronto para marcar
         </span>
       </div>
