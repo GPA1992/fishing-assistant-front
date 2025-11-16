@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Rubik } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { ThemePanel } from "@/components/theme";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body className={`${rubik.variable} ${geistMono.variable} antialiased`}>
         <Providers>
           <main className="min-h-screen text-slate-900">
+            <ThemePanel />
             <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 pb-10 pt-6 sm:gap-10">
               {children}
             </div>
