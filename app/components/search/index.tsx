@@ -16,6 +16,20 @@ type RawNominatimResult = {
   lat: string;
   lon: string;
   boundingbox: [string, string, string, string];
+  address?: {
+    city?: string;
+    town?: string;
+    village?: string;
+    hamlet?: string;
+    municipality?: string;
+    suburb?: string;
+    neighbourhood?: string;
+    quarter?: string;
+    city_district?: string;
+    state?: string;
+    postcode?: string;
+    road?: string;
+  };
 };
 
 function parseResult(raw: RawNominatimResult): SearchResult {
@@ -24,9 +38,29 @@ function parseResult(raw: RawNominatimResult): SearchResult {
   const west = parseFloat(raw.boundingbox[2]);
   const east = parseFloat(raw.boundingbox[3]);
 
+  const city =
+    raw.address?.city ||
+    raw.address?.town ||
+    raw.address?.village ||
+    raw.address?.hamlet ||
+    raw.address?.municipality;
+  const neighborhood =
+    raw.address?.suburb ||
+    raw.address?.neighbourhood ||
+    raw.address?.quarter ||
+    raw.address?.city_district;
+  const state = raw.address?.state;
+  const postcode = raw.address?.postcode;
+  const detail = raw.address?.road;
+
+  const formattedName =
+    [neighborhood, city, state, postcode, detail]
+      .filter(Boolean)
+      .join(", ") || raw.display_name;
+
   return {
     id: raw.place_id,
-    name: raw.display_name,
+    name: formattedName,
     center: [parseFloat(raw.lat), parseFloat(raw.lon)],
     boundingBox: [south, west, north, east] as BoundingBox,
   };
