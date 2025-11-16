@@ -56,4 +56,4 @@ export const themes: ThemeDefinition[] = [
   },
 ];
 
-export const defaultThemeId = themes[0].id;
+export const defaultThemeId = themes[1].id;

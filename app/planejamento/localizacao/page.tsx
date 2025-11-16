@@ -9,9 +9,9 @@ const Map = dynamic(() => import("../../../components/map"), {
 
 export default function Page() {
   return (
-    <>
+    <div className="flex flex-col gap-6">
       <Search />
       <Map />
-    </>
+    </div>
   );
 }
