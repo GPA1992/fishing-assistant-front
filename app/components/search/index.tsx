@@ -54,9 +54,8 @@ function parseResult(raw: RawNominatimResult): SearchResult {
   const detail = raw.address?.road;
 
   const formattedName =
-    [neighborhood, city, state, postcode, detail]
-      .filter(Boolean)
-      .join(", ") || raw.display_name;
+    [neighborhood, city, state, postcode, detail].filter(Boolean).join(", ") ||
+    raw.display_name;
 
   return {
     id: raw.place_id,
@@ -67,6 +66,8 @@ function parseResult(raw: RawNominatimResult): SearchResult {
 }
 
 async function fetchLocations(term: string, signal?: AbortSignal) {
+  console.log(term);
+
   const response = await fetch(
     `https://nominatim.openstreetmap.org/search?q=${term}+brasil&format=json&addressdetails=1`,
     {
