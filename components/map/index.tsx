@@ -13,6 +13,7 @@ import {
 import marker2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import { fetchLocationsByBoundingBox } from "@/components/search";
 import {
   BoundingBox,
   useLocationSelection,
@@ -71,11 +72,19 @@ function SyncView({
 function MapClickHandler({
   onClick,
 }: {
-  onClick: (position: LatLngTuple) => void;
+  onClick: (position: LatLngTuple, bbox: BoundingBox) => void;
 }) {
-  useMapEvents({
+  const map = useMapEvents({
     click(e) {
-      onClick([e.latlng.lat, e.latlng.lng]);
+      const bounds = map.getBounds();
+      const bbox: BoundingBox = [
+        bounds.getSouth(),
+        bounds.getWest(),
+        bounds.getNorth(),
+        bounds.getEast(),
+      ];
+
+      onClick([e.latlng.lat, e.latlng.lng], bbox);
     },
   });
 
@@ -95,7 +104,7 @@ export default function Map({
   zoom = DEFAULT_ZOOM,
   className,
 }: MapProps) {
-  const { selected } = useLocationSelection();
+  const { selected, setSelectedLocation } = useLocationSelection();
   const activeBBox = selected?.boundingBox ?? bbox;
   const selectionKey = useMemo(() => {
     if (selected) return `sel-${selected.id}`;
@@ -117,9 +126,33 @@ export default function Map({
     manualMarker?.key === selectionKey ? manualMarker.position : derivedCenter;
   const userHasMoved = manualMarker?.key === selectionKey;
 
-  const mapContainerClassName = `h-[50vh] min-h-[300px] sm:h-[58vh] sm:min-h-[340px] md:h-[62vh] md:min-h-[380px] w-full ${
+  const mapContainerClassName = `h-[35vh] min-h-[220px] sm:h-[40vh] sm:min-h-[260px] md:h-[45vh] md:min-h-[300px] w-full ${
     className ?? ""
   }`;
+
+  async function handleMapSelection(
+    position: LatLngTuple,
+    boundsBBox: BoundingBox
+  ) {
+    setManualMarker({ key: selectionKey, position });
+
+    try {
+      const [result] = await fetchLocationsByBoundingBox(
+        `${position[0]},${position[1]}`,
+        boundsBBox
+      );
+
+      if (result) {
+        setSelectedLocation(result);
+        setManualMarker({
+          key: `sel-${result.id}`,
+          position: result.center,
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao buscar localização pelo mapa", error);
+    }
+  }
 
   return (
     <div>
@@ -141,8 +174,8 @@ export default function Map({
 
           <Marker position={markerPosition} />
           <MapClickHandler
-            onClick={(position: LatLngTuple) => {
-              setManualMarker({ key: selectionKey, position });
+            onClick={(position: LatLngTuple, mapBounds) => {
+              handleMapSelection(position, mapBounds);
             }}
           />
           <SyncView

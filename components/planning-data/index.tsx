@@ -5,10 +5,8 @@ import { useLocationSelection } from "@/context/location-selection";
 export default function PlanningData() {
   const { selected } = useLocationSelection();
 
-  if (!selected) return;
-
   return (
-    <section className="relative z-20 rounded-2xl shadow-xl shadow-emerald-900/10 border-none">
+    <section className="relative min-h-28 z-20 rounded-2xl shadow-xl shadow-emerald-900/10 border-none">
       <div className="relative space-y-4 p-4 sm:p-5">
         {selected && (
           <div className="flex items-center gap-2 rounded-xl bg-[var(--color-highlight)] px-4 py-3 text-sm text-[var(--color-text)]">

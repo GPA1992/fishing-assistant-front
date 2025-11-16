@@ -84,6 +84,30 @@ async function fetchLocations(term: string, signal?: AbortSignal) {
   return data.map(parseResult);
 }
 
+export async function fetchLocationsByBoundingBox(
+  term: string,
+  bbox: BoundingBox,
+  signal?: AbortSignal
+) {
+  const [south, west, north, east] = bbox;
+  const viewbox = `${west},${north},${east},${south}`;
+
+  const response = await fetch(
+    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+      term
+    )}&format=json&addressdetails=1&viewbox=${viewbox}&bounded=1`,
+    {
+      headers: { "Accept-Language": "pt-BR" },
+      signal,
+    }
+  );
+
+  if (!response.ok) throw new Error("Falha ao buscar localização");
+
+  const data: RawNominatimResult[] = await response.json();
+  return data.map(parseResult);
+}
+
 export default function Search() {
   const [term, setTerm] = useState("");
   const [open, setOpen] = useState(false);
@@ -105,7 +129,7 @@ export default function Search() {
   }, [trimmedTerm]);
 
   return (
-    <section className="relative z-20 rounded-2xl shadow-xl shadow-emerald-900/10 border-none">
+    <>
       <div className="relative space-y-4 p-4 sm:p-5">
         <div className="flex items-center gap-2">
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10 sm:h-10 sm:w-10">
@@ -210,7 +234,7 @@ export default function Search() {
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 }
 
