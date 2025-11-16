@@ -16,6 +16,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 pb-10 pt-6 sm:gap-10">
           <ThemePanel />
           <Search />
+
           <InteractiveMap />
         </div>
       </main>

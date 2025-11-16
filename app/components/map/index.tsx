@@ -122,30 +122,36 @@ export default function Map({
   }`;
 
   return (
-    <div className="theme-card relative z-0 overflow-hidden rounded-3xl shadow-2xl shadow-emerald-900/10 border-none">
-      <MapContainer
-        center={markerPosition}
-        zoom={zoom}
-        scrollWheelZoom
-        className={mapContainerClassName}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-
-        <Marker position={markerPosition} />
-        <MapClickHandler
-          onClick={(position: LatLngTuple) => {
-            setManualMarker({ key: selectionKey, position });
-          }}
-        />
-        <SyncView
-          bbox={activeBBox}
+    <div className="rounded-3xl shadow-xl shadow-emerald-900/10  border-none p-2">
+      <span className="text-sm italic text-[var(--color-muted)] mb-3 pl-2 px-1">
+        Arraste, de zomm, clique para marcar o local.
+      </span>
+      <div className="relative z-0 overflow-hidden rounded-3xl shadow-2xl shadow-emerald-900/10 border-none">
+        <MapContainer
           center={markerPosition}
-          userHasMoved={userHasMoved}
-        />
-      </MapContainer>
+          zoom={zoom}
+          scrollWheelZoom
+          zoomControl={false}
+          className={mapContainerClassName}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+
+          <Marker position={markerPosition} />
+          <MapClickHandler
+            onClick={(position: LatLngTuple) => {
+              setManualMarker({ key: selectionKey, position });
+            }}
+          />
+          <SyncView
+            bbox={activeBBox}
+            center={markerPosition}
+            userHasMoved={userHasMoved}
+          />
+        </MapContainer>
+      </div>
     </div>
   );
 }

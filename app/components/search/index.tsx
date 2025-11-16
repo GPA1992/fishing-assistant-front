@@ -105,7 +105,7 @@ export default function Search() {
   }, [trimmedTerm]);
 
   return (
-    <section className="theme-card relative z-20 rounded-3xl shadow-xl shadow-emerald-900/10 border-none">
+    <section className="relative z-20 rounded-3xl shadow-xl shadow-emerald-900/10 border-none">
       <div className="relative space-y-4 p-4 sm:p-5">
         <div className="flex items-center gap-2">
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10">

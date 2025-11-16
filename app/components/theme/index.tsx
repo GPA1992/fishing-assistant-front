@@ -31,7 +31,7 @@ export function ThemePanel() {
   const { theme, themes, setThemeId } = useTheme();
 
   return (
-    <section className="theme-card relative rounded-3xl shadow-xl shadow-emerald-900/10">
+    <section className="relative rounded-3xl shadow-xl shadow-emerald-900/10">
       <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <div className="space-y-1">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-muted)]">
@@ -46,7 +46,10 @@ export function ThemePanel() {
         </div>
 
         <div className="flex w-full flex-col gap-2 sm:w-auto sm:min-w-[240px]">
-          <label htmlFor="theme-select" className="text-xs font-semibold text-[var(--color-muted)]">
+          <label
+            htmlFor="theme-select"
+            className="text-xs font-semibold text-[var(--color-muted)]"
+          >
             Paleta
           </label>
           <select
