@@ -30,8 +30,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${rubik.variable} ${geistMono.variable} antialiased`}>
         <Providers>
-          <main className="min-h-screen text-slate-900">
-            <ThemePanel />
+          <main className="min-h-screen min-w-screen">
+            {/*       <ThemePanel /> */}
             <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 pb-10 pt-6 sm:gap-10">
               {children}
             </div>

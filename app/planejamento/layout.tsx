@@ -1,12 +1,14 @@
+import PlanningData from "@/components/planning-data";
 import Stepper from "@/components/stepper";
 
 import type { ReactNode } from "react";
 
 export default function FormLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="container">
-      <Stepper />
+    <>
+      <PlanningData />
       <div>{children}</div>
-    </div>
+      <Stepper />
+    </>
   );
 }

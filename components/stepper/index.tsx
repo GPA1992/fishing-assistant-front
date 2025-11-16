@@ -38,8 +38,8 @@ export default function Stepper() {
   const activeIndex = currentIndex === -1 ? 0 : currentIndex;
 
   return (
-    <nav aria-label="Progresso do planejamento">
-      <ol className="flex flex-wrap items-center gap-2.5 sm:gap-4">
+    <nav aria-label="Progresso do planejamento" className="w-full">
+      <ol className="flex w-full flex-wrap items-center gap-2.5 sm:gap-4">
         {steps.map(({ href, icon: Icon, title }, index) => {
           const active = activeIndex === index;
           const completed = activeIndex > index;
@@ -61,14 +61,17 @@ export default function Stepper() {
             !completed && !active && "text-[var(--color-muted)]"
           );
           const lineClasses = cn(
-            "h-px w-10 flex-1 rounded-full transition-colors sm:w-16",
+            "h-px flex-1 rounded-full border border-transparent transition-colors",
             completed
-              ? "bg-[var(--color-accent)] border border-[var(--color-accent)]"
-              : "bg-[var(--color-surface-muted)] "
+              ? "bg-[var(--color-accent)] border-[var(--color-accent)]"
+              : "bg-[var(--color-surface-muted)]"
           );
 
           return (
-            <li key={href} className="flex items-center gap-2.5 sm:gap-3">
+            <li
+              key={href}
+              className="flex flex-1 items-center gap-2.5 sm:gap-3"
+            >
               <Link
                 href={href}
                 aria-current={active ? "step" : undefined}
@@ -80,10 +83,10 @@ export default function Stepper() {
                     strokeWidth={2.4}
                   />
                 </span>
-                <span className="sr-only">{title}</span>
+                {/*  <span className="sr-only">{title}</span>
                 <span className={cn("hidden sm:inline", labelClasses)}>
                   {title}
-                </span>
+                </span> */}
               </Link>
               {index < steps.length - 1 && (
                 <span aria-hidden className={lineClasses} />
