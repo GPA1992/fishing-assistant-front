@@ -18,9 +18,6 @@ type RawNominatimResult = {
   boundingbox: [string, string, string, string];
 };
 
-const NOMINATIM_URL =
-  "https://nominatim.openstreetmap.org/search?format=json&addressdetails=1";
-
 function parseResult(raw: RawNominatimResult): SearchResult {
   const south = parseFloat(raw.boundingbox[0]);
   const north = parseFloat(raw.boundingbox[1]);
@@ -37,7 +34,7 @@ function parseResult(raw: RawNominatimResult): SearchResult {
 
 async function fetchLocations(term: string, signal?: AbortSignal) {
   const response = await fetch(
-    `${NOMINATIM_URL}&q=${encodeURIComponent(term)}`,
+    `https://nominatim.openstreetmap.org/search?q=${term}+brasil&format=json&addressdetails=1`,
     {
       headers: {
         "Accept-Language": "pt-BR",
@@ -73,53 +70,136 @@ export default function Search() {
   }, [trimmedTerm]);
 
   return (
-    <div className="relative w-full max-w-xl">
-      <label className="mb-1 block text-sm font-medium text-slate-700">
-        Buscar localização
-      </label>
-      <input
-        value={term}
-        onChange={(event) => setTerm(event.target.value)}
-        placeholder="Ex: Guarizinho Brasil"
-        className="w-full rounded-md border border-slate-300 px-3 py-2 shadow-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-      />
-      {isFetching && (
-        <div className="absolute right-3 top-9 text-xs text-slate-500">
-          buscando...
+    <section className="relative isolate rounded-3xl border border-emerald-100/80 bg-white/95 shadow-xl shadow-emerald-900/10 backdrop-blur">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-emerald-100/70 via-sky-50 to-amber-50 opacity-90" />
+      <div className="relative space-y-4 p-4 sm:p-5">
+        <div className="flex items-center gap-2">
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-800 shadow-inner shadow-emerald-900/10">
+            <svg
+              aria-hidden="true"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 21s6-4.35 6-10a6 6 0 1 0-12 0c0 5.65 6 10 6 10Z"
+              />
+              <circle cx="12" cy="11" r="2" />
+            </svg>
+          </span>
+          <h2 className="text-base font-semibold text-slate-900">Destino</h2>
         </div>
-      )}
 
-      {open && (
-        <ul className="absolute z-10 mt-1 max-h-64 w-full overflow-y-auto rounded-md border border-slate-200 bg-white shadow-lg">
-          {results.length === 0 && !isFetching && (
-            <li className="px-3 py-2 text-sm text-slate-500">Nenhum local encontrado</li>
-          )}
-          {results.map((item) => (
-            <li key={item.id}>
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedLocation(item);
-                  setTerm(item.name);
-                  setOpen(false);
-                }}
-                className="flex w-full items-start gap-2 px-3 py-2 text-left hover:bg-slate-50"
+        <div className="relative w-full">
+          <label htmlFor="search-location" className="sr-only">
+            Buscar
+          </label>
+          <div className="relative">
+            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-emerald-700/70">
+              <svg
+                aria-hidden="true"
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <span className="text-sm font-medium text-slate-800">
-                  {item.name}
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+                <circle cx="11" cy="11" r="7" />
+                <path d="m16.5 16.5 4 4" />
+              </svg>
+            </span>
+            <input
+              id="search-location"
+              value={term}
+              onChange={(event) => setTerm(event.target.value)}
+              onFocus={() => setOpen(trimmedTerm.length > 0)}
+              placeholder="Cidade, rio ou lago"
+              className="w-full rounded-2xl border border-emerald-100/90 bg-white/95 px-4 py-3 pl-12 text-base text-slate-900 shadow-inner shadow-emerald-900/5 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-200 placeholder:text-slate-400"
+            />
+            {isFetching && (
+              <div className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-emerald-700">
+                buscando...
+              </div>
+            )}
 
-      {selected && (
-        <div className="mt-3 rounded-md border border-emerald-100 bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
-          Selecionado: {selected.name}
+            {open && (
+              <ul className="absolute left-0 right-0 top-[110%] z-20 max-h-60 overflow-y-auto rounded-2xl border border-emerald-100 bg-white/95 shadow-xl shadow-emerald-900/10 backdrop-blur">
+                {results.length === 0 && !isFetching && (
+                  <li className="px-4 py-3 text-sm text-slate-600">
+                    Nada encontrado
+                  </li>
+                )}
+                {results.map((item) => (
+                  <li
+                    key={item.id}
+                    className="border-b border-emerald-50 last:border-none"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedLocation(item);
+                        setTerm("");
+                        setOpen(false);
+                      }}
+                      className="flex w-full items-center gap-2 px-4 py-3 text-left transition hover:bg-emerald-50/70 active:bg-emerald-100/80"
+                    >
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
+                        <svg
+                          aria-hidden="true"
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 21s6-4.35 6-10a6 6 0 1 0-12 0c0 5.65 6 10 6 10Z"
+                          />
+                          <circle cx="12" cy="11" r="2" />
+                        </svg>
+                      </span>
+                      <span className="text-sm font-medium text-slate-900">
+                        {item.name}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
-      )}
-    </div>
+
+        {selected && (
+          <div className="flex items-center gap-2 rounded-2xl bg-emerald-50/90 px-4 py-3 text-sm text-emerald-900 ring-1 ring-emerald-100">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
+              <svg
+                aria-hidden="true"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m5 13 4 4L19 7"
+                />
+              </svg>
+            </span>
+            <span className="font-semibold">{selected.name}</span>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
 

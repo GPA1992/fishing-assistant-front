@@ -11,9 +11,11 @@ const InteractiveMap = dynamic(() => import("./components/map"), {
 export default function Home() {
   return (
     <LocationSelectionProvider>
-      <main className="min-h-screen bg-gradient-to-br from-emerald-50 via-sky-50 to-amber-50 text-slate-900 p-4 space-y-4">
-        <Search />
-        <InteractiveMap />
+      <main className="min-h-screen bg-gradient-to-br from-emerald-50 via-sky-50 to-amber-50 text-slate-900">
+        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 pb-10 pt-6 gap-y-20">
+          <Search />
+          <InteractiveMap />
+        </div>
       </main>
     </LocationSelectionProvider>
   );

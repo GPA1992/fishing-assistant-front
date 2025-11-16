@@ -13,10 +13,7 @@ import {
 import marker2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import {
-  BoundingBox,
-  useLocationSelection,
-} from "@/context/location-selection";
+import { BoundingBox, useLocationSelection } from "@/context/location-selection";
 
 const DEFAULT_CENTER: LatLngTuple = [-24.02323, -48.9034806];
 const DEFAULT_ZOOM = 10;
@@ -110,24 +107,73 @@ export default function Map({
     setMarkerPosition(derivedCenter);
   }, [derivedCenter]);
 
-  return (
-    <MapContainer
-      center={markerPosition}
-      zoom={zoom}
-      scrollWheelZoom
-      className={className}
-      style={{ minHeight: 320, width: "100%" }}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+  const mapContainerClassName = `h-[62vh] min-h-[360px] w-full ${
+    className ?? ""
+  }`;
 
-      <Marker position={markerPosition} />
-      <MapClickHandler
-        onClick={(position: LatLngTuple) => setMarkerPosition(position)}
-      />
-      <SyncView bbox={activeBBox} center={markerPosition} />
-    </MapContainer>
+  return (
+    <div className="relative overflow-hidden rounded-3xl border border-emerald-100/80 bg-white/85 shadow-2xl shadow-emerald-900/10 backdrop-blur">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-emerald-100/60 via-sky-50 to-amber-100/60" />
+      <div className="pointer-events-none absolute left-4 right-4 top-4 z-20 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900">
+        <span className="inline-flex items-center gap-2 rounded-full bg-emerald-100/85 px-3 py-1 shadow-sm shadow-emerald-900/10">
+          <svg
+            aria-hidden="true"
+            className="h-3.5 w-3.5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 3v18" />
+            <path d="m7 14 5 5 5-5" />
+          </svg>
+          Toque
+        </span>
+        <span className="inline-flex items-center gap-2 rounded-full bg-white/85 px-3 py-1 text-slate-700 shadow-sm shadow-emerald-900/10">
+          <svg
+            aria-hidden="true"
+            className="h-3.5 w-3.5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="m15.5 14 5-5-5-5" />
+            <path d="M8.5 19 3.5 14l5-5" />
+          </svg>
+          Mova/Zoom
+        </span>
+      </div>
+
+      <MapContainer
+        center={markerPosition}
+        zoom={zoom}
+        scrollWheelZoom
+        className={mapContainerClassName}
+        style={{ width: "100%" }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+
+        <Marker position={markerPosition} />
+        <MapClickHandler
+          onClick={(position: LatLngTuple) => setMarkerPosition(position)}
+        />
+        <SyncView bbox={activeBBox} center={markerPosition} />
+      </MapContainer>
+
+      <div className="pointer-events-none absolute inset-x-4 bottom-4 z-20 flex flex-wrap gap-2 text-xs font-medium text-emerald-900">
+        <span className="inline-flex items-center gap-2 rounded-2xl bg-white/85 px-4 py-2 shadow-md shadow-emerald-900/10 ring-1 ring-emerald-100/90">
+          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          Pronto para marcar
+        </span>
+      </div>
+    </div>
   );
 }
