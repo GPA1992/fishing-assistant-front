@@ -105,10 +105,10 @@ export default function Search() {
   }, [trimmedTerm]);
 
   return (
-    <section className="relative z-20 rounded-3xl shadow-xl shadow-emerald-900/10 border-none">
+    <section className="relative z-20 rounded-2xl shadow-xl shadow-emerald-900/10 border-none">
       <div className="relative space-y-4 p-4 sm:p-5">
         <div className="flex items-center gap-2">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-[var(--color-accent)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10 sm:h-10 sm:w-10">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10 sm:h-10 sm:w-10">
             <svg
               aria-hidden="true"
               className="h-5 w-5"
@@ -156,7 +156,7 @@ export default function Search() {
               onChange={(event) => setTerm(event.target.value)}
               onFocus={() => setOpen(trimmedTerm.length > 0)}
               placeholder="Cidade, rio ou lago"
-              className="theme-input w-full rounded-2xl border-none bg-[var(--color-surface)] px-3.5 py-2.5 pl-11 text-sm text-[var(--color-primary-strong)] shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition placeholder:opacity-80 sm:px-4 sm:py-3 sm:pl-12 sm:text-base"
+              className="theme-input w-full rounded-xl border-none bg-[var(--color-surface)] px-3.5 py-2.5 pl-11 text-sm text-[var(--color-primary-strong)] shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition placeholder:opacity-80 sm:px-4 sm:py-3 sm:pl-12 sm:text-base"
             />
             {isFetching && (
               <div className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-[var(--color-primary)]">
@@ -165,7 +165,7 @@ export default function Search() {
             )}
 
             {open && (
-              <ul className="absolute left-0 right-0 top-[110%] z-30 max-h-60 overflow-y-auto rounded-2xl border-none bg-[var(--color-surface)] shadow-xl shadow-emerald-900/10">
+              <ul className="absolute left-0 right-0 top-[110%] z-30 max-h-60 overflow-y-auto rounded-xl border-none bg-[var(--color-surface)] shadow-xl shadow-emerald-900/10">
                 {results.length === 0 && !isFetching && (
                   <li className="px-4 py-3 text-sm text-[var(--color-muted)]">
                     Nada encontrado
@@ -182,7 +182,7 @@ export default function Search() {
                       }}
                       className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-[var(--color-highlight)] active:bg-[var(--color-accent)]"
                     >
-                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)]">
+                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--color-accent)] text-[var(--color-primary-strong)]">
                         <svg
                           aria-hidden="true"
                           className="h-4 w-4"
@@ -211,8 +211,8 @@ export default function Search() {
         </div>
 
         {selected && (
-          <div className="flex items-center gap-2 rounded-2xl bg-[var(--color-highlight)] px-4 py-3 text-sm text-[var(--color-text)]">
-            <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)]">
+          <div className="flex items-center gap-2 rounded-xl bg-[var(--color-highlight)] px-4 py-3 text-sm text-[var(--color-text)]">
+            <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--color-accent)] text-[var(--color-primary-strong)]">
               <svg
                 aria-hidden="true"
                 className="h-4 w-4"

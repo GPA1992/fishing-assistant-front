@@ -31,7 +31,7 @@ export function ThemePanel() {
   const { theme, themes, setThemeId } = useTheme();
 
   return (
-    <section className="relative rounded-3xl shadow-xl shadow-emerald-900/10">
+    <section className="relative rounded-2xl shadow-xl shadow-emerald-900/10">
       <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <div className="space-y-1">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-muted)]">
@@ -56,7 +56,7 @@ export function ThemePanel() {
             id="theme-select"
             value={theme.id}
             onChange={(event) => setThemeId(event.target.value)}
-            className="theme-input rounded-2xl px-4 py-3 text-sm font-medium shadow-sm"
+            className="theme-input rounded-xl px-4 py-3 text-sm font-medium shadow-sm"
           >
             {themes.map((item) => (
               <option key={item.id} value={item.id}>
@@ -74,7 +74,7 @@ export function ThemePanel() {
           return (
             <div
               key={key}
-              className="overflow-hidden rounded-2xl border border-[var(--color-border)] shadow-sm"
+              className="overflow-hidden rounded-xl border border-[var(--color-border)] shadow-sm"
               style={{ backgroundColor: color, color: textColor }}
             >
               <div className="px-3 py-4 text-sm font-semibold">{label}</div>
@@ -85,12 +85,12 @@ export function ThemePanel() {
           );
         })}
 
-        <div className="col-span-2 rounded-2xl border-none shadow-sm sm:col-span-5">
+        <div className="col-span-2 rounded-xl border-none shadow-sm sm:col-span-5">
           <div className="px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-muted)]">
             Gradiente do fundo
           </div>
           <div
-            className="h-16 w-full rounded-b-2xl"
+            className="h-16 w-full rounded-b-xl"
             style={{
               background: `radial-gradient(circle at 10% 20%, ${theme.colors.gradient[0]} 0, transparent 25%), radial-gradient(circle at 90% 10%, ${theme.colors.gradient[1]} 0, transparent 20%), radial-gradient(circle at 50% 80%, ${theme.colors.gradient[2]} 0, transparent 22%), ${theme.colors.background}`,
             }}
