@@ -1,25 +1,27 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import Search from "./components/search";
-import { LocationSelectionProvider } from "@/context/location-selection";
-import { MyDatePicker } from "./components/day-picker";
-
-const InteractiveMap = dynamic(() => import("./components/map"), {
-  ssr: false,
-});
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <LocationSelectionProvider>
-      <main className="min-h-screen text-slate-900">
-        <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 pb-10 pt-6 sm:gap-10">
-          {/* <ThemePanel /> */}
-          <Search />
-          <MyDatePicker />
-          <InteractiveMap />
-        </div>
-      </main>
-    </LocationSelectionProvider>
+    <>
+      <button>
+        <Link
+          href={"/planejamento/localizacao"}
+          style={{
+            display: "inline-block",
+            width: 36,
+            height: 36,
+            lineHeight: "36px",
+            textAlign: "center",
+            borderRadius: "50%",
+            border: "1px solid #ccc",
+            textDecoration: "none",
+          }}
+        >
+          Iniciar
+        </Link>
+      </button>
+    </>
   );
 }

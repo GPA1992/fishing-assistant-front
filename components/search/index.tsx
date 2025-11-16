@@ -155,7 +155,7 @@ export default function Search() {
               value={term}
               onChange={(event) => setTerm(event.target.value)}
               onFocus={() => setOpen(trimmedTerm.length > 0)}
-              placeholder="Cidade, rio ou lago"
+              placeholder="Cidade, bairro ou região"
               className="theme-input w-full rounded-xl border-none bg-[var(--color-surface)] px-3.5 py-2.5 pl-11 text-sm text-[var(--color-primary-strong)] shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition placeholder:opacity-80 sm:px-4 sm:py-3 sm:pl-12 sm:text-base"
             />
             {isFetching && (

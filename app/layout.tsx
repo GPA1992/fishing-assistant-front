@@ -27,10 +27,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${rubik.variable} ${geistMono.variable} antialiased`}
-      >
-        <Providers>{children}</Providers>
+      <body className={`${rubik.variable} ${geistMono.variable} antialiased`}>
+        <Providers>
+          <main className="min-h-screen text-slate-900">
+            <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 pb-10 pt-6 sm:gap-10">
+              {children}
+            </div>
+          </main>
+        </Providers>
       </body>
     </html>
   );

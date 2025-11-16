@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import { ThemeProvider } from "@/context/theme";
+import { LocationSelectionProvider } from "@/context/location-selection";
 
 type ProvidersProps = {
   children: React.ReactNode;
@@ -19,12 +20,14 @@ export function Providers({ children }: ProvidersProps) {
             retry: 1,
           },
         },
-      }),
+      })
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>{children}</ThemeProvider>
-    </QueryClientProvider>
+    <LocationSelectionProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>{children}</ThemeProvider>
+      </QueryClientProvider>
+    </LocationSelectionProvider>
   );
 }
