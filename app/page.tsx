@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Search from "./components/search";
 import { LocationSelectionProvider } from "@/context/location-selection";
-import { ThemePanel } from "./components/theme";
+import { MyDatePicker } from "./components/day-picker";
 
 const InteractiveMap = dynamic(() => import("./components/map"), {
   ssr: false,
@@ -16,6 +16,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 pb-10 pt-6 sm:gap-10">
           {/* <ThemePanel /> */}
           <Search />
+          <MyDatePicker />
           <InteractiveMap />
         </div>
       </main>
