@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <LocationSelectionProvider>
       <main className="min-h-screen text-slate-900">
-        <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 pb-10 pt-6 gap-y-20">
+        <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 pb-10 pt-6 sm:gap-10">
           <ThemePanel />
           <Search />
           <InteractiveMap />

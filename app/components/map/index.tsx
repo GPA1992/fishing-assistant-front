@@ -117,14 +117,14 @@ export default function Map({
     manualMarker?.key === selectionKey ? manualMarker.position : derivedCenter;
   const userHasMoved = manualMarker?.key === selectionKey;
 
-  const mapContainerClassName = `h-[62vh] min-h-[360px] w-full ${
+  const mapContainerClassName = `h-[50vh] min-h-[300px] sm:h-[58vh] sm:min-h-[340px] md:h-[62vh] md:min-h-[380px] w-full ${
     className ?? ""
   }`;
 
   return (
-    <div className="theme-card relative overflow-hidden rounded-3xl shadow-2xl shadow-emerald-900/10">
-      <div className="pointer-events-none absolute left-4 right-4 top-4 z-20 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-primary-strong)]">
-        <span className="inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-3 py-1 text-[var(--color-primary-strong)] shadow-sm shadow-emerald-900/10 ring-1 ring-[var(--color-border)]">
+    <div className="theme-card relative z-0 overflow-hidden rounded-3xl shadow-2xl shadow-emerald-900/10 border-none">
+      <div className="pointer-events-none absolute left-4 right-4 top-4 z-30 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-primary-strong)]">
+        <span className="inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-3 py-1 text-[var(--color-primary-strong)] shadow-sm shadow-emerald-900/10">
           <svg
             aria-hidden="true"
             className="h-3.5 w-3.5"
@@ -140,7 +140,7 @@ export default function Map({
           </svg>
           Toque
         </span>
-        <span className="inline-flex items-center gap-2 rounded-full bg-[var(--color-surface)] px-3 py-1 text-[var(--color-text)] shadow-sm shadow-emerald-900/10 ring-1 ring-[var(--color-border)]">
+        <span className="inline-flex items-center gap-2 rounded-full bg-[var(--color-surface)] px-3 py-1 text-[var(--color-text)] shadow-sm shadow-emerald-900/10">
           <svg
             aria-hidden="true"
             className="h-3.5 w-3.5"
@@ -182,8 +182,8 @@ export default function Map({
         />
       </MapContainer>
 
-      <div className="pointer-events-none absolute inset-x-4 bottom-4 z-20 flex flex-wrap gap-2 text-xs font-medium text-[var(--color-primary-strong)]">
-        <span className="inline-flex items-center gap-2 rounded-2xl bg-[var(--color-surface)] px-4 py-2 shadow-md shadow-emerald-900/10 ring-1 ring-[var(--color-accent)]">
+      <div className="pointer-events-none absolute inset-x-4 bottom-4 z-30 flex flex-wrap gap-2 text-xs font-medium text-[var(--color-primary-strong)]">
+        <span className="inline-flex items-center gap-2 rounded-2xl bg-[var(--color-surface)] px-4 py-2 shadow-md shadow-emerald-900/10">
           <span className="h-2 w-2 rounded-full bg-[var(--color-primary)]" />
           Pronto para marcar
         </span>

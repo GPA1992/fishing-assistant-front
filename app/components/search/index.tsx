@@ -104,7 +104,7 @@ export default function Search() {
   }, [trimmedTerm]);
 
   return (
-    <section className="theme-card relative rounded-3xl shadow-xl shadow-emerald-900/10">
+    <section className="theme-card relative z-20 rounded-3xl shadow-xl shadow-emerald-900/10 border-none">
       <div className="relative space-y-4 p-4 sm:p-5">
         <div className="flex items-center gap-2">
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10">
@@ -155,7 +155,7 @@ export default function Search() {
               onChange={(event) => setTerm(event.target.value)}
               onFocus={() => setOpen(trimmedTerm.length > 0)}
               placeholder="Cidade, rio ou lago"
-              className="theme-input w-full rounded-2xl border-[var(--color-primary-strong)] bg-[var(--color-surface)] px-4 py-3 pl-12 text-base text-[var(--color-primary-strong)] shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition placeholder:opacity-80"
+              className="theme-input w-full rounded-2xl border-none bg-[var(--color-surface)] px-4 py-3 pl-12 text-base text-[var(--color-primary-strong)] shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition placeholder:opacity-80"
             />
             {isFetching && (
               <div className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-[var(--color-primary)]">
@@ -164,17 +164,14 @@ export default function Search() {
             )}
 
             {open && (
-              <ul className="absolute left-0 right-0 top-[110%] z-20 max-h-60 overflow-y-auto rounded-2xl border border-[var(--color-primary)] bg-[var(--color-surface)] shadow-xl shadow-emerald-900/10">
+              <ul className="absolute left-0 right-0 top-[110%] z-30 max-h-60 overflow-y-auto rounded-2xl border-none bg-[var(--color-surface)] shadow-xl shadow-emerald-900/10">
                 {results.length === 0 && !isFetching && (
                   <li className="px-4 py-3 text-sm text-[var(--color-muted)]">
                     Nada encontrado
                   </li>
                 )}
                 {results.map((item) => (
-                  <li
-                    key={item.id}
-                    className="border-b border-[var(--color-border)] last:border-none"
-                  >
+                  <li key={item.id} className="last:border-none">
                     <button
                       type="button"
                       onClick={() => {
@@ -182,9 +179,9 @@ export default function Search() {
                         setTerm("");
                         setOpen(false);
                       }}
-                      className="flex w-full items-center gap-2 px-4 py-3 text-left transition hover:bg-[var(--color-highlight)] active:bg-[var(--color-accent)]"
+                      className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-[var(--color-highlight)] active:bg-[var(--color-accent)]"
                     >
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)]">
+                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)]">
                         <svg
                           aria-hidden="true"
                           className="h-4 w-4"
@@ -201,7 +198,7 @@ export default function Search() {
                           <circle cx="12" cy="11" r="2" />
                         </svg>
                       </span>
-                      <span className="text-sm font-medium text-[var(--color-text)]">
+                      <span className="flex-1 text-sm font-medium text-[var(--color-text)]">
                         {item.name}
                       </span>
                     </button>
@@ -213,8 +210,8 @@ export default function Search() {
         </div>
 
         {selected && (
-          <div className="flex items-center gap-2 rounded-2xl bg-[var(--color-highlight)] px-4 py-3 text-sm text-[var(--color-text)] ring-1 ring-[var(--color-border)]">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)]">
+          <div className="flex items-center gap-2 rounded-2xl bg-[var(--color-highlight)] px-4 py-3 text-sm text-[var(--color-text)]">
+            <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)]">
               <svg
                 aria-hidden="true"
                 className="h-4 w-4"

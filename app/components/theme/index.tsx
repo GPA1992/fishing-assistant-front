@@ -3,7 +3,9 @@
 import { useTheme } from "@/context/theme";
 import { type ThemeDefinition } from "@/lib/themes";
 
-const SWATCH_KEYS: Array<{ key: keyof ThemeDefinition["colors"]; label: string }> = [
+type SwatchKey = Exclude<keyof ThemeDefinition["colors"], "gradient">;
+
+const SWATCH_KEYS: Array<{ key: SwatchKey; label: string }> = [
   { key: "primary", label: "Primária" },
   { key: "primaryStrong", label: "Primária forte" },
   { key: "accent", label: "Acento" },
@@ -64,7 +66,7 @@ export function ThemePanel() {
 
       <div className="grid grid-cols-2 gap-3 border-t border-[var(--color-border)] p-4 sm:grid-cols-5 sm:p-5">
         {SWATCH_KEYS.map(({ key, label }) => {
-          const color = theme.colors[key];
+          const color = theme.colors[key] as string;
           const textColor = getTextColor(color);
           return (
             <div
@@ -80,7 +82,7 @@ export function ThemePanel() {
           );
         })}
 
-        <div className="col-span-2 rounded-2xl border border-[var(--color-border)] shadow-sm sm:col-span-5">
+        <div className="col-span-2 rounded-2xl border-none shadow-sm sm:col-span-5">
           <div className="px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-muted)]">
             Gradiente do fundo
           </div>
