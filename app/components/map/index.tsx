@@ -13,7 +13,10 @@ import {
 import marker2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import { BoundingBox, useLocationSelection } from "@/context/location-selection";
+import {
+  BoundingBox,
+  useLocationSelection,
+} from "@/context/location-selection";
 
 const DEFAULT_CENTER: LatLngTuple = [-24.02323, -48.9034806];
 const DEFAULT_ZOOM = 10;
@@ -41,14 +44,16 @@ function boundingBoxCenter(bbox: BoundingBox): LatLngTuple {
 function SyncView({
   bbox,
   center,
+  userHasMoved,
 }: {
   bbox?: BoundingBox;
   center: LatLngTuple;
+  userHasMoved: boolean;
 }) {
   const map = useMap();
 
   useEffect(() => {
-    if (bbox) {
+    if (bbox && !userHasMoved) {
       map.fitBounds(boundingBoxToBounds(bbox), {
         padding: [24, 24],
         animate: true,
@@ -58,7 +63,7 @@ function SyncView({
     }
 
     map.setView(center);
-  }, [bbox, center, map]);
+  }, [bbox, center, map, userHasMoved]);
 
   return null;
 }
@@ -92,20 +97,25 @@ export default function Map({
 }: MapProps) {
   const { selected } = useLocationSelection();
   const activeBBox = selected?.boundingBox ?? bbox;
+  const selectionKey = useMemo(() => {
+    if (selected) return `sel-${selected.id}`;
+    if (bbox) return `bbox-${bbox.join(",")}`;
+    return "none";
+  }, [bbox, selected]);
 
   const derivedCenter = useMemo(() => {
-    if (activeBBox) {
-      return boundingBoxCenter(activeBBox);
-    }
+    if (activeBBox) return boundingBoxCenter(activeBBox);
     return initialCenter;
   }, [activeBBox, initialCenter]);
 
-  const [markerPosition, setMarkerPosition] =
-    useState<LatLngTuple>(derivedCenter);
+  const [manualMarker, setManualMarker] = useState<{
+    key: string;
+    position: LatLngTuple;
+  } | null>(null);
 
-  useEffect(() => {
-    setMarkerPosition(derivedCenter);
-  }, [derivedCenter]);
+  const markerPosition =
+    manualMarker?.key === selectionKey ? manualMarker.position : derivedCenter;
+  const userHasMoved = manualMarker?.key === selectionKey;
 
   const mapContainerClassName = `h-[62vh] min-h-[360px] w-full ${
     className ?? ""
@@ -163,9 +173,15 @@ export default function Map({
 
         <Marker position={markerPosition} />
         <MapClickHandler
-          onClick={(position: LatLngTuple) => setMarkerPosition(position)}
+          onClick={(position: LatLngTuple) => {
+            setManualMarker({ key: selectionKey, position });
+          }}
         />
-        <SyncView bbox={activeBBox} center={markerPosition} />
+        <SyncView
+          bbox={activeBBox}
+          center={markerPosition}
+          userHasMoved={userHasMoved}
+        />
       </MapContainer>
 
       <div className="pointer-events-none absolute inset-x-4 bottom-4 z-20 flex flex-wrap gap-2 text-xs font-medium text-emerald-900">
