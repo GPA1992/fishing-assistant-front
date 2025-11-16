@@ -1,19 +1,14 @@
 "use client";
 
 import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+  BoundingBox,
+  LocationSelection,
+  useLocationSelection,
+} from "@/context/location-selection";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { BoundingBox } from "../map";
 
-export type SearchResult = {
-  id: number;
-  name: string;
-  center: [number, number];
-  boundingBox: BoundingBox;
-};
+export type SearchResult = LocationSelection;
 
 type RawNominatimResult = {
   place_id: number;
@@ -24,7 +19,7 @@ type RawNominatimResult = {
 };
 
 const NOMINATIM_URL =
-  "https://nominatim.openstreetmap.org/search?q=guarizinho+brasil&format=json&addressdetails=1";
+  "https://nominatim.openstreetmap.org/search?format=json&addressdetails=1";
 
 function parseResult(raw: RawNominatimResult): SearchResult {
   const south = parseFloat(raw.boundingbox[0]);
@@ -36,15 +31,13 @@ function parseResult(raw: RawNominatimResult): SearchResult {
     id: raw.place_id,
     name: raw.display_name,
     center: [parseFloat(raw.lat), parseFloat(raw.lon)],
-    boundingBox: [south, west, north, east],
+    boundingBox: [south, west, north, east] as BoundingBox,
   };
 }
 
 async function fetchLocations(term: string, signal?: AbortSignal) {
-  console.log(term);
-
   const response = await fetch(
-    `https://nominatim.openstreetmap.org/search?q=${term}+brasil&format=json&addressdetails=1`,
+    `${NOMINATIM_URL}&q=${encodeURIComponent(term)}`,
     {
       headers: {
         "Accept-Language": "pt-BR",
@@ -60,20 +53,10 @@ async function fetchLocations(term: string, signal?: AbortSignal) {
 }
 
 export default function Search() {
-  const [queryClient] = useState(() => new QueryClient());
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <SearchInner />
-    </QueryClientProvider>
-  );
-}
-
-function SearchInner() {
   const [term, setTerm] = useState("");
-  const [selected, setSelected] = useState<SearchResult | null>(null);
   const [open, setOpen] = useState(false);
-  const [stopSearch, setStopSearch] = useState(false);
+
+  const { selected, setSelectedLocation } = useLocationSelection();
 
   const debouncedTerm = useDebounce(term, 300);
   const trimmedTerm = debouncedTerm.trim();
@@ -81,11 +64,9 @@ function SearchInner() {
   const { data: results = [], isFetching } = useQuery<SearchResult[]>({
     queryKey: ["search-location", trimmedTerm],
     queryFn: ({ signal }) => fetchLocations(trimmedTerm, signal),
-    enabled: trimmedTerm.length > 0 && !stopSearch,
+    enabled: trimmedTerm.length > 0,
     staleTime: 60 * 1000,
   });
-
-  console.log(results);
 
   useEffect(() => {
     setOpen(trimmedTerm.length > 0);
@@ -93,18 +74,12 @@ function SearchInner() {
 
   return (
     <div className="relative w-full max-w-xl">
-      <p>strop {stopSearch ? "sim" : "nao"}</p>
       <label className="mb-1 block text-sm font-medium text-slate-700">
         Buscar localização
       </label>
       <input
         value={term}
-        onChange={(event) => {
-          if (stopSearch) {
-            setStopSearch(false);
-          }
-          setTerm(event.target.value);
-        }}
+        onChange={(event) => setTerm(event.target.value)}
         placeholder="Ex: Guarizinho Brasil"
         className="w-full rounded-md border border-slate-300 px-3 py-2 shadow-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
       />
@@ -114,16 +89,18 @@ function SearchInner() {
         </div>
       )}
 
-      {open && results.length > 0 && (
+      {open && (
         <ul className="absolute z-10 mt-1 max-h-64 w-full overflow-y-auto rounded-md border border-slate-200 bg-white shadow-lg">
+          {results.length === 0 && !isFetching && (
+            <li className="px-3 py-2 text-sm text-slate-500">Nenhum local encontrado</li>
+          )}
           {results.map((item) => (
             <li key={item.id}>
               <button
                 type="button"
                 onClick={() => {
-                  setSelected(item);
+                  setSelectedLocation(item);
                   setTerm(item.name);
-                  setStopSearch(true);
                   setOpen(false);
                 }}
                 className="flex w-full items-start gap-2 px-3 py-2 text-left hover:bg-slate-50"
@@ -139,15 +116,14 @@ function SearchInner() {
 
       {selected && (
         <div className="mt-3 rounded-md border border-emerald-100 bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
-          Selecionado: {selected.name.split(",")[0]},{" "}
-          {selected.name.split(",")[1]}
+          Selecionado: {selected.name}
         </div>
       )}
     </div>
   );
 }
 
-function useDebounce<T>(value: T, delay = 1000): T {
+function useDebounce<T>(value: T, delay = 300): T {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {

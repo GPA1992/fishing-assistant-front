@@ -9,12 +9,14 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+
 import marker2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-
-export type BoundingBox = [south: number, west: number, north: number, east: number];
+import {
+  BoundingBox,
+  useLocationSelection,
+} from "@/context/location-selection";
 
 const DEFAULT_CENTER: LatLngTuple = [-24.02323, -48.9034806];
 const DEFAULT_ZOOM = 10;
@@ -54,6 +56,7 @@ function SyncView({
         padding: [24, 24],
         animate: true,
       });
+      map.setZoom(14);
       return;
     }
 
@@ -90,10 +93,15 @@ export default function Map({
   zoom = DEFAULT_ZOOM,
   className,
 }: MapProps) {
+  const { selected } = useLocationSelection();
+  const activeBBox = selected?.boundingBox ?? bbox;
+
   const derivedCenter = useMemo(() => {
-    if (bbox) return boundingBoxCenter(bbox);
+    if (activeBBox) {
+      return boundingBoxCenter(activeBBox);
+    }
     return initialCenter;
-  }, [bbox, initialCenter]);
+  }, [activeBBox, initialCenter]);
 
   const [markerPosition, setMarkerPosition] =
     useState<LatLngTuple>(derivedCenter);
@@ -116,8 +124,10 @@ export default function Map({
       />
 
       <Marker position={markerPosition} />
-      <MapClickHandler onClick={(position: LatLngTuple) => setMarkerPosition(position)} />
-      <SyncView bbox={bbox} center={markerPosition} />
+      <MapClickHandler
+        onClick={(position: LatLngTuple) => setMarkerPosition(position)}
+      />
+      <SyncView bbox={activeBBox} center={markerPosition} />
     </MapContainer>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
 import Search from "./components/search";
+import { LocationSelectionProvider } from "@/context/location-selection";
 
 const InteractiveMap = dynamic(() => import("./components/map"), {
   ssr: false,
@@ -10,9 +10,11 @@ const InteractiveMap = dynamic(() => import("./components/map"), {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-emerald-50 via-sky-50 to-amber-50 text-slate-900">
-      <Search />
-      {/*   <InteractiveMap /> */}
-    </main>
+    <LocationSelectionProvider>
+      <main className="min-h-screen bg-gradient-to-br from-emerald-50 via-sky-50 to-amber-50 text-slate-900 p-4 space-y-4">
+        <Search />
+        <InteractiveMap />
+      </main>
+    </LocationSelectionProvider>
   );
 }
