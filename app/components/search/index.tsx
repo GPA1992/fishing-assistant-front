@@ -108,7 +108,7 @@ export default function Search() {
     <section className="relative z-20 rounded-3xl shadow-xl shadow-emerald-900/10 border-none">
       <div className="relative space-y-4 p-4 sm:p-5">
         <div className="flex items-center gap-2">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-[var(--color-accent)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10 sm:h-10 sm:w-10">
             <svg
               aria-hidden="true"
               className="h-5 w-5"
@@ -125,7 +125,7 @@ export default function Search() {
               <circle cx="12" cy="11" r="2" />
             </svg>
           </span>
-          <h2 className="text-base font-semibold text-[var(--color-primary-strong)]">
+          <h2 className="text-sm font-semibold text-[var(--color-primary-strong)] sm:text-base">
             Destino
           </h2>
         </div>
@@ -156,7 +156,7 @@ export default function Search() {
               onChange={(event) => setTerm(event.target.value)}
               onFocus={() => setOpen(trimmedTerm.length > 0)}
               placeholder="Cidade, rio ou lago"
-              className="theme-input w-full rounded-2xl border-none bg-[var(--color-surface)] px-4 py-3 pl-12 text-base text-[var(--color-primary-strong)] shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition placeholder:opacity-80"
+              className="theme-input w-full rounded-2xl border-none bg-[var(--color-surface)] px-3.5 py-2.5 pl-11 text-sm text-[var(--color-primary-strong)] shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition placeholder:opacity-80 sm:px-4 sm:py-3 sm:pl-12 sm:text-base"
             />
             {isFetching && (
               <div className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-[var(--color-primary)]">

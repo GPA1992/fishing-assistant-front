@@ -122,8 +122,8 @@ export default function Map({
   }`;
 
   return (
-    <div className="rounded-3xl shadow-xl shadow-emerald-900/10  border-none p-2">
-      <span className="text-sm italic text-[var(--color-muted)] mb-3 pl-2 px-1">
+    <div>
+      <span className="text-sm italic text-[var(--color-muted)] mb-3 pl-1 px-1">
         Arraste, de zomm, clique para marcar o local.
       </span>
       <div className="relative z-0 overflow-hidden rounded-3xl shadow-2xl shadow-emerald-900/10 border-none">

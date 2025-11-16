@@ -14,9 +14,8 @@ export default function Home() {
     <LocationSelectionProvider>
       <main className="min-h-screen text-slate-900">
         <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 pb-10 pt-6 sm:gap-10">
-          <ThemePanel />
+          {/* <ThemePanel /> */}
           <Search />
-
           <InteractiveMap />
         </div>
       </main>
