@@ -27,31 +27,40 @@ export default function PlanningData() {
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--color-surface-muted)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10">
             <MapPinCheckInside className="h-5 w-5" strokeWidth={2.2} />
           </span>
-          <div className="space-y-1 min-w-0">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[color-mix(in_srgb,var(--color-primary)_60%,var(--color-primary-strong)_40%)]">
-              Destino selecionado
-            </p>
-            <h2 className="truncate text-sm font-semibold text-[var(--color-primary-strong)] sm:text-base sm:max-w-[490px] max-w-[260px]">
-              {selected ? selected.name : "Escolha um ponto no mapa"}
-            </h2>
-            {selected ? (
-              <p className="text-xs font-medium text-[var(--color-muted)] sm:text-[13px]">
-                Coordenadas preparadas para o próximo passo.
-              </p>
+          <div className="space-y-1 min-w-0 min-h-16">
+            {loading ? (
+              <LoadingInline
+                label="Carregando"
+                className="self-start sm:self-center"
+              />
             ) : (
-              <p className="text-xs font-medium text-[var(--color-muted)] sm:text-[13px]">
-                Toque no mapa para definir o local.
-              </p>
+              <>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[color-mix(in_srgb,var(--color-primary)_60%,var(--color-primary-strong)_40%)]">
+                  Destino selecionado
+                </p>
+                <h2 className="truncate text-sm font-semibold text-[var(--color-primary-strong)] sm:text-base sm:max-w-[490px] max-w-[260px]">
+                  {selected ? selected.name : "Escolha um ponto no mapa"}
+                </h2>
+                {selected ? (
+                  <p className="text-xs font-medium text-[var(--color-muted)] sm:text-[13px]">
+                    Coordenadas preparadas para o próximo passo.
+                  </p>
+                ) : (
+                  <p className="text-xs font-medium text-[var(--color-muted)] sm:text-[13px]">
+                    Toque no mapa para definir o local.
+                  </p>
+                )}
+              </>
             )}
           </div>
         </div>
 
-        {loading ? (
+        {/*       {loading ? (
           <LoadingInline
             label="Carregando"
             className="self-start sm:self-center"
           />
-        ) : null}
+        ) : null} */}
       </div>
 
       <div className="relative flex flex-wrap items-center gap-2 border-t border-[color-mix(in_srgb,var(--color-border)_70%,transparent)] px-4 py-3 sm:px-5">

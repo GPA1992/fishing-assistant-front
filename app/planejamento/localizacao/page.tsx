@@ -9,9 +9,9 @@ const Map = dynamic(() => import("../../../components/map"), {
 
 export default function Page() {
   return (
-    <section className="relative z-20 rounded-2xl shadow-xl shadow-emerald-900/10 border-none p-2">
+    <>
       <Search />
       <Map />
-    </section>
+    </>
   );
 }

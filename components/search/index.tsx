@@ -35,7 +35,7 @@ export default function Search() {
 
   return (
     <>
-      <div className="relative space-y-4 p-4 sm:p-5">
+      <div className="relative space-y-4 p-0 sm:p-0 mb-4">
         <div className="flex items-center gap-2">
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10 sm:h-10 sm:w-10">
             <svg
