@@ -1,5 +1,6 @@
 "use client";
 
+import { planningStore } from "@/core/request";
 import { useMemo, useRef, useState } from "react";
 
 const hours = Array.from({ length: 24 }, (_, i) => i);
@@ -13,6 +14,7 @@ export function HourPicker() {
     () => hours.map((hour) => hour.toString().padStart(2, "0")),
     []
   );
+  const setProperty = planningStore((state) => state.setProperty);
 
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;
@@ -22,7 +24,7 @@ export function HourPicker() {
   };
 
   return (
-    <>
+    <div className="w-full flex flex-col items-center">
       <span
         className={
           "text-xs font-medium text-[var(--color-muted)] sm:text-[13px] mb-2"
@@ -78,7 +80,10 @@ export function HourPicker() {
                 <button
                   key={hour}
                   type="button"
-                  onClick={() => setSelectedHour(index)}
+                  onClick={() => {
+                    setSelectedHour(index);
+                    setProperty("targetHour", index.toString());
+                  }}
                   className={`relative select-none text-left tabular-nums transition-colors p-[2px] ${
                     isSelected
                       ? "text-slate-900 bg-[var(--color-accent)]/60 rounded  "
@@ -101,6 +106,6 @@ export function HourPicker() {
           display: none;
         }
       `}</style>
-    </>
+    </div>
   );
 }

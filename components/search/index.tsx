@@ -46,7 +46,7 @@ export default function Search() {
             <h2 className="truncate text-sm font-semibold text-[var(--color-primary-strong)] sm:text-base sm:max-w-[490px] max-w-[260px]">
               Destino
             </h2>
-            <p className="text-[8px] font-medium text-[var(--color-muted)] sm:text-[13px]">
+            <p className="text-[10px] font-medium text-[var(--color-muted)] sm:text-[13px]">
               Busque por cidade, bairro, região ou marque a localização exata no
               mapa.
             </p>

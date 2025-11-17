@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 export default function FormLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <div className="h-[55vh] p-2 mb-8">{children}</div>
+      <div className="h-[55vh] p-2 mb-12">{children}</div>
 
       <Stepper />
       <PlanningData />

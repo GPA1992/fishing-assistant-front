@@ -9,7 +9,7 @@ export default function PlanningData() {
   const markLoading = planningStore((state) => state.markLoading);
   const searcLoading = planningStore((state) => state.searcLoading);
   const targetDate = planningStore((state) => state.targetDate);
-  const location = planningStore((state) => state.isLocationIsFilled());
+  const targetHour = planningStore((state) => state.targetHour);
 
   const dateLabel = targetDate
     ? new Date(targetDate).toLocaleDateString("pt-BR", {
@@ -67,30 +67,15 @@ export default function PlanningData() {
                   {targetDate && (
                     <span className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-surface-muted)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-primary-strong)]">
                       <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-primary-strong)]" />
-                      Data · {dateLabel}
+                      Data · {dateLabel}{" "}
+                      {targetHour && `as · ${targetHour} horas.`}
                     </span>
                   )}
-                  {/*     {location ? (
-                    <span className="text-xs font-medium text-[var(--color-primary)]">
-                      Mantenha a seleção para atualizar o mapa.
-                    </span>
-                  ) : (
-                    <span className="text-xs font-medium text-[var(--color-muted)]">
-                      Nenhum local definido ainda.
-                    </span>
-                  )} */}
                 </div>
               </>
             )}
           </div>
         </div>
-
-        {/*       {loading ? (
-          <LoadingInline
-            label="Carregando"
-            className="self-start sm:self-center"
-          />
-        ) : null} */}
       </div>
     </section>
   );
