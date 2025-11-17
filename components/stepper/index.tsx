@@ -42,6 +42,23 @@ export default function Stepper() {
   const activeIndex = currentIndex === -1 ? 0 : currentIndex;
   const isLocationIsFilled = planningStore((state) => state.isLocationIsFilled);
   const isTargetIsFilled = planningStore((state) => state.isTargetIsFilled);
+  const [hasHydrated, setHasHydrated] = useState(false);
+
+  useEffect(() => {
+    setHasHydrated(planningStore.persist?.hasHydrated?.() ?? false);
+
+    const unsubFinishHydration = planningStore.persist?.onFinishHydration?.(
+      () => setHasHydrated(true)
+    );
+
+    return () => {
+      unsubFinishHydration?.();
+    };
+  }, []);
+
+  if (!hasHydrated) {
+    return null;
+  }
 
   return (
     <nav aria-label="Progresso do planejamento" className="w-full">
@@ -74,7 +91,12 @@ export default function Stepper() {
             if (steper === "/planejamento/dia-horario") {
               return isTargetIsFilled();
             }
+
+            return false;
           };
+
+          const isFilled = hasHydrated && isStepperIsFilled(href);
+          const shouldShowMissing = hasHydrated && !isFilled && completed;
 
           return (
             <li
@@ -92,7 +114,7 @@ export default function Stepper() {
                     strokeWidth={2.4}
                   />
 
-                  {isStepperIsFilled(href) && (
+                  {isFilled && (
                     <span
                       className={cn(
                         "absolute -top-0.5 p-[2px] -right-2 h-[18px] w-[18px] text-white flex items-center justify-center rounded-full border border-[var(--color-border)] bg-green-500"
@@ -101,7 +123,7 @@ export default function Stepper() {
                       <CheckIcon className=" h-5 w-5" strokeWidth={3} />
                     </span>
                   )}
-                  {!isStepperIsFilled(href) && completed && (
+                  {shouldShowMissing && (
                     <span
                       className={cn(
                         "absolute -top-1 -right-1 h-4 w-4 text-green-500 flex items-center justify-center rounded-full border bg-white"
