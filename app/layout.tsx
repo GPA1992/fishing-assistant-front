@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist_Mono, Rubik } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { ThemePanel } from "@/components/theme";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",

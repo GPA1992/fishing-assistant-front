@@ -1,6 +1,11 @@
 "use client";
 
-import { useTheme } from "@/context/theme";
+import {
+  getThemeById,
+  getThemes,
+  setThemeAction,
+  themeStore,
+} from "@/core/theme";
 import { type ThemeDefinition } from "@/lib/themes";
 
 type SwatchKey = Exclude<keyof ThemeDefinition["colors"], "gradient">;
@@ -28,7 +33,9 @@ function getTextColor(hex: string) {
 }
 
 export function ThemePanel() {
-  const { theme, themes, setThemeId } = useTheme();
+  const themeId = themeStore((state) => state.themeId);
+  const theme = getThemeById(themeId);
+  const themes = getThemes();
 
   return (
     <section className="relative rounded-2xl shadow-xl shadow-emerald-900/10">
@@ -55,7 +62,7 @@ export function ThemePanel() {
           <select
             id="theme-select"
             value={theme.id}
-            onChange={(event) => setThemeId(event.target.value)}
+            onChange={(event) => setThemeAction(event.target.value)}
             className="theme-input rounded-xl px-4 py-3 text-sm font-medium shadow-sm"
           >
             {themes.map((item) => (

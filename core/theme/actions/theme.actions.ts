@@ -1,22 +1,9 @@
-"use client";
-
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { themeStore } from "../store/theme.store";
 import { defaultThemeId, themes, type ThemeDefinition } from "@/lib/themes";
 
-type ThemeContextValue = {
-  theme: ThemeDefinition;
-  setThemeId: (id: string) => void;
-  themes: ThemeDefinition[];
-};
-
-const ThemeContext = createContext<ThemeContextValue | null>(null);
+function resolveTheme(themeId: string): ThemeDefinition {
+  return themes.find((candidate) => candidate.id === themeId) ?? themes[0];
+}
 
 function applyTheme(theme: ThemeDefinition) {
   if (typeof document === "undefined") return;
@@ -43,28 +30,35 @@ function applyTheme(theme: ThemeDefinition) {
   });
 }
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [themeId, setThemeId] = useState(defaultThemeId);
-
-  const theme = useMemo(
-    () => themes.find((candidate) => candidate.id === themeId) ?? themes[0],
-    [themeId],
-  );
-
-  useEffect(() => {
-    applyTheme(theme);
-  }, [theme]);
-
-  const value = useMemo(
-    () => ({ theme, setThemeId, themes }),
-    [theme, setThemeId],
-  );
-
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+export function getThemeById(themeId: string): ThemeDefinition {
+  return resolveTheme(themeId);
 }
 
-export function useTheme() {
-  const ctx = useContext(ThemeContext);
-  if (!ctx) throw new Error("useTheme must be used within ThemeProvider");
-  return ctx;
+export function getThemes() {
+  return themes;
+}
+
+export function applyThemeById(themeId: string) {
+  applyTheme(resolveTheme(themeId));
+}
+
+export function syncThemeAction() {
+  const { themeId, setProperty } = themeStore.getState();
+  const theme = resolveTheme(themeId || defaultThemeId);
+
+  if (theme.id !== themeId) {
+    setProperty("themeId", theme.id);
+  }
+
+  applyTheme(theme);
+  return theme;
+}
+
+export function setThemeAction(themeId: string) {
+  const { setProperty } = themeStore.getState();
+  const theme = resolveTheme(themeId || defaultThemeId);
+
+  setProperty("themeId", theme.id);
+  applyTheme(theme);
+  return theme;
 }

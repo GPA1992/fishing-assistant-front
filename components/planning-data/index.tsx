@@ -1,9 +1,9 @@
 "use client";
 
-import { useLocationSelection } from "@/context/location-selection";
+import { locationStore } from "@/core/request";
 
 export default function PlanningData() {
-  const { selected } = useLocationSelection();
+  const selected = locationStore((state) => state.selected);
 
   return (
     <section className="relative min-h-28 z-20 rounded-2xl shadow-xl shadow-emerald-900/10 border-none">

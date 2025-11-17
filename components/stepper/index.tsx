@@ -40,7 +40,7 @@ export default function Stepper() {
   return (
     <nav aria-label="Progresso do planejamento" className="w-full">
       <ol className="flex w-full flex-wrap items-center gap-2.5 sm:gap-4">
-        {steps.map(({ href, icon: Icon, title }, index) => {
+        {steps.map(({ href, icon: Icon }, index) => {
           const active = activeIndex === index;
           const completed = activeIndex > index;
           const circleClasses = cn(
@@ -53,12 +53,6 @@ export default function Stepper() {
             !completed &&
               !active &&
               "border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-muted)]"
-          );
-          const labelClasses = cn(
-            "text-xs font-semibold transition-colors sm:text-sm",
-            active && "text-[var(--color-primary-strong)]",
-            completed && !active && "text-[var(--color-primary-strong)]",
-            !completed && !active && "text-[var(--color-muted)]"
           );
           const lineClasses = cn(
             "h-px flex-1 rounded-full border border-transparent transition-colors",

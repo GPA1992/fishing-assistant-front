@@ -1,131 +1,36 @@
 "use client";
 
 import {
-  BoundingBox,
-  LocationSelection,
-  useLocationSelection,
-} from "@/context/location-selection";
-import { useQuery } from "@tanstack/react-query";
+  locationStore,
+  resetLocationSearchAction,
+  searchLocationsAction,
+  setSelectedLocationAction,
+} from "@/core/request";
 import { useEffect, useState } from "react";
-
-export type SearchResult = LocationSelection;
-
-type RawNominatimResult = {
-  place_id: number;
-  display_name: string;
-  lat: string;
-  lon: string;
-  boundingbox: [string, string, string, string];
-  address?: {
-    city?: string;
-    town?: string;
-    village?: string;
-    hamlet?: string;
-    municipality?: string;
-    suburb?: string;
-    neighbourhood?: string;
-    quarter?: string;
-    city_district?: string;
-    state?: string;
-    postcode?: string;
-    road?: string;
-  };
-};
-
-function parseResult(raw: RawNominatimResult): SearchResult {
-  const south = parseFloat(raw.boundingbox[0]);
-  const north = parseFloat(raw.boundingbox[1]);
-  const west = parseFloat(raw.boundingbox[2]);
-  const east = parseFloat(raw.boundingbox[3]);
-
-  const city =
-    raw.address?.city ||
-    raw.address?.town ||
-    raw.address?.village ||
-    raw.address?.hamlet ||
-    raw.address?.municipality;
-  const neighborhood =
-    raw.address?.suburb ||
-    raw.address?.neighbourhood ||
-    raw.address?.quarter ||
-    raw.address?.city_district;
-  const state = raw.address?.state;
-  const postcode = raw.address?.postcode;
-  const detail = raw.address?.road;
-
-  const formattedName =
-    [neighborhood, city, state, postcode, detail].filter(Boolean).join(", ") ||
-    raw.display_name;
-
-  return {
-    id: raw.place_id,
-    name: formattedName,
-    center: [parseFloat(raw.lat), parseFloat(raw.lon)],
-    boundingBox: [south, west, north, east] as BoundingBox,
-  };
-}
-
-async function fetchLocations(term: string, signal?: AbortSignal) {
-  console.log(term);
-
-  const response = await fetch(
-    `https://nominatim.openstreetmap.org/search?q=${term}+brasil&format=json&addressdetails=1`,
-    {
-      headers: {
-        "Accept-Language": "pt-BR",
-      },
-      signal,
-    }
-  );
-
-  if (!response.ok) throw new Error("Falha ao buscar localização");
-
-  const data: RawNominatimResult[] = await response.json();
-  return data.map(parseResult);
-}
-
-export async function fetchLocationsByBoundingBox(
-  term: string,
-  bbox: BoundingBox,
-  signal?: AbortSignal
-) {
-  const [south, west, north, east] = bbox;
-  const viewbox = `${west},${north},${east},${south}`;
-
-  const response = await fetch(
-    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-      term
-    )}&format=json&addressdetails=1&viewbox=${viewbox}&bounded=1`,
-    {
-      headers: { "Accept-Language": "pt-BR" },
-      signal,
-    }
-  );
-
-  if (!response.ok) throw new Error("Falha ao buscar localização");
-
-  const data: RawNominatimResult[] = await response.json();
-  return data.map(parseResult);
-}
 
 export default function Search() {
   const [term, setTerm] = useState("");
   const [open, setOpen] = useState(false);
 
-  const { selected, setSelectedLocation } = useLocationSelection();
-
   const debouncedTerm = useDebounce(term, 300);
   const trimmedTerm = debouncedTerm.trim();
-
-  const { data: results = [], isFetching } = useQuery<SearchResult[]>({
-    queryKey: ["search-location", trimmedTerm],
-    queryFn: ({ signal }) => fetchLocations(trimmedTerm, signal),
-    enabled: trimmedTerm.length > 0,
-    staleTime: 60 * 1000,
-  });
+  const results = locationStore((state) => state.results);
+  const loading = locationStore((state) => state.loading);
 
   useEffect(() => {
     setOpen(trimmedTerm.length > 0);
+  }, [trimmedTerm]);
+
+  useEffect(() => {
+    if (!trimmedTerm) {
+      resetLocationSearchAction();
+      return;
+    }
+
+    const controller = new AbortController();
+    searchLocationsAction(trimmedTerm, controller.signal);
+
+    return () => controller.abort();
   }, [trimmedTerm]);
 
   return (
@@ -182,7 +87,7 @@ export default function Search() {
               placeholder="Cidade, bairro ou região"
               className="theme-input w-full rounded-xl border-none bg-[var(--color-surface)] px-3.5 py-2.5 pl-11 text-sm text-[var(--color-primary-strong)] shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition placeholder:opacity-80 sm:px-4 sm:py-3 sm:pl-12 sm:text-base"
             />
-            {isFetching && (
+            {loading && (
               <div className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-[var(--color-primary)]">
                 buscando...
               </div>
@@ -190,7 +95,7 @@ export default function Search() {
 
             {open && (
               <ul className="absolute left-0 right-0 top-[110%] z-30 max-h-60 overflow-y-auto rounded-xl border-none bg-[var(--color-surface)] shadow-xl shadow-emerald-900/10">
-                {results.length === 0 && !isFetching && (
+                {results.length === 0 && !loading && (
                   <li className="px-4 py-3 text-sm text-[var(--color-muted)]">
                     Nada encontrado
                   </li>
@@ -200,8 +105,9 @@ export default function Search() {
                     <button
                       type="button"
                       onClick={() => {
-                        setSelectedLocation(item);
+                        setSelectedLocationAction(item);
                         setTerm("");
+                        resetLocationSearchAction();
                         setOpen(false);
                       }}
                       className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-[var(--color-highlight)] active:bg-[var(--color-accent)]"
