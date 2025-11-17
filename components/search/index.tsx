@@ -54,9 +54,17 @@ export default function Search() {
               <circle cx="12" cy="11" r="2" />
             </svg>
           </span>
-          <h2 className="text-sm font-semibold text-[var(--color-primary-strong)] sm:text-base">
-            Destino
-          </h2>
+
+          <div>
+            <h2 className="truncate text-sm font-semibold text-[var(--color-primary-strong)] sm:text-base sm:max-w-[490px] max-w-[260px]">
+              Destino
+            </h2>
+            <p className="text-xs font-medium text-[var(--color-muted)] sm:text-[13px]">
+              Escreva no campo onde você vai pescar, pode digitar a cidade,
+              bairro ou um ponto próximo, também pode navegar pelo mapa e clicar
+              diretamente no lugar desejado.
+            </p>
+          </div>
         </div>
 
         <div className="relative w-full">

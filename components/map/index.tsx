@@ -35,6 +35,8 @@ export default function Map({
   const selected = locationStore((state) => state.selected);
   const syncViewEnabled = locationStore((state) => state.syncViewEnabled);
   const setSyncViewEnabled = locationStore((state) => state.setSyncViewEnabled);
+  const markLoading = locationStore((state) => state.markLoading);
+  const searcLoading = locationStore((state) => state.searcLoading);
   const activeBBox = selected?.boundingBox ?? bbox;
 
   const derivedCenter = useMemo(() => {
@@ -77,9 +79,6 @@ export default function Map({
 
   return (
     <div>
-      <span className="text-sm italic text-[var(--color-muted)] mb-3 pl-1 px-1">
-        Arraste, de zomm, clique para marcar o local.
-      </span>
       <div className="relative z-0 overflow-hidden rounded-2xl shadow-2xl shadow-emerald-900/10 border-none">
         <MapContainer
           center={markerPosition}
@@ -94,14 +93,19 @@ export default function Map({
           />
 
           <Marker position={markerPosition} />
-          <MapClickHandler
-            onClick={(position: LatLngTuple, mapBounds) => {
-              handleMapSelection(position, mapBounds);
-            }}
-          />
+          {!markLoading && !searcLoading && (
+            <MapClickHandler
+              onClick={(position: LatLngTuple, mapBounds) => {
+                handleMapSelection(position, mapBounds);
+              }}
+            />
+          )}
           {syncViewEnabled && <SyncView center={markerPosition} />}
         </MapContainer>
       </div>
+      <span className="text-sm italic text-[var(--color-muted)] mb-3 pl-1 px-1">
+        Arraste, de zomm, clique para marcar o local.
+      </span>
     </div>
   );
 }
