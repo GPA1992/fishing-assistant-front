@@ -2,7 +2,7 @@
 
 import { planningStore } from "@/core/request";
 import { LoadingInline } from "../loading";
-import { MapPinCheckInside } from "lucide-react";
+import { Fish, MapPinCheckInside } from "lucide-react";
 
 export default function PlanningData() {
   const selected = planningStore((state) => state.selected);
@@ -25,7 +25,7 @@ export default function PlanningData() {
       <div className="relative flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
         <div className="flex items-start gap-3 min-w-0">
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--color-highlight)_70%,var(--color-surface)_30%)] text-[var(--color-primary-strong)] ring-1 ring-[color-mix(in_srgb,var(--color-primary)_20%,var(--color-border)_80%)] shadow-[0_8px_20px_rgba(0,0,0,0.05)]">
-            <MapPinCheckInside className="h-5 w-5" strokeWidth={2.2} />
+            <Fish className="h-5 w-5" strokeWidth={2.2} />
           </span>
           <div className="space-y-1 min-w-0 min-h-16">
             {loading ? (
@@ -36,7 +36,7 @@ export default function PlanningData() {
             ) : (
               <>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[color:var(--color-primary-strong)] opacity-80">
-                  Destino selecionado
+                  Planejamento
                 </p>
                 <h2 className="truncate text-sm font-semibold text-[var(--color-primary-strong)] sm:text-base sm:max-w-[490px] max-w-[260px]">
                   {selected?.address?.city &&
