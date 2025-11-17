@@ -7,10 +7,11 @@ export function ThemeInitializer() {
   useEffect(() => {
     syncThemeAction();
 
-    const unsubscribe = themeStore.subscribe(
-      (state) => state.themeId,
-      (themeId) => applyThemeById(themeId)
-    );
+    const unsubscribe = themeStore.subscribe((state, prevState) => {
+      if (state.themeId !== prevState.themeId) {
+        applyThemeById(state.themeId);
+      }
+    });
 
     const finishHydration = themeStore.persist?.onFinishHydration?.(() => {
       syncThemeAction();

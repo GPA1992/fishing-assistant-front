@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
 @import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -174,6 +173,7 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
