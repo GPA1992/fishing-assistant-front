@@ -1,10 +1,13 @@
 "use client";
+import { locationStore } from "@/core/request";
 import { cn } from "@/lib/utils";
 import {
   CalendarClock,
   ChartColumnDecreasing,
+  CheckIcon,
   LucideIcon,
   MapPin,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -36,6 +39,7 @@ export default function Stepper() {
   const pathname = usePathname();
   const currentIndex = steps.findIndex(({ href }) => pathname.startsWith(href));
   const activeIndex = currentIndex === -1 ? 0 : currentIndex;
+  const selected = locationStore((state) => state.selected);
 
   return (
     <nav aria-label="Progresso do planejamento" className="w-full">
@@ -61,6 +65,8 @@ export default function Stepper() {
               : "bg-[var(--color-surface-muted)]"
           );
 
+          const isLocationSet =
+            href === "/planejamento/localizacao" && selected;
           return (
             <li
               key={href}
@@ -71,17 +77,33 @@ export default function Stepper() {
                 aria-current={active ? "step" : undefined}
                 className="group flex items-center gap-2 sm:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface)]"
               >
-                <span className={circleClasses}>
+                <span className={cn(circleClasses, "relative")}>
                   <Icon
                     className={cn("h-5 w-5", active && "text-(--color-accent)")}
                     strokeWidth={2.4}
                   />
+
+                  {isLocationSet && (
+                    <span
+                      className={cn(
+                        "absolute -top-1 -right-1 h-4 w-4 text-green-500 flex items-center justify-center rounded-full border bg-white"
+                      )}
+                    >
+                      <CheckIcon className=" h-3 w-3" strokeWidth={3} />
+                    </span>
+                  )}
+                  {!isLocationSet && completed && (
+                    <span
+                      className={cn(
+                        "absolute -top-1 -right-1 h-4 w-4 text-green-500 flex items-center justify-center rounded-full border bg-white"
+                      )}
+                    >
+                      <X className=" h-3 w-3 text-red-500" strokeWidth={3} />
+                    </span>
+                  )}
                 </span>
-                {/*  <span className="sr-only">{title}</span>
-                <span className={cn("hidden sm:inline", labelClasses)}>
-                  {title}
-                </span> */}
               </Link>
+
               {index < steps.length - 1 && (
                 <span aria-hidden className={lineClasses} />
               )}
