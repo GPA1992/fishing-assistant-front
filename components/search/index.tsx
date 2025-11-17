@@ -6,6 +6,7 @@ import {
   searchLocationsAction,
   setSelectedLocationAction,
 } from "@/core/request";
+import { MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Search() {
@@ -37,32 +38,17 @@ export default function Search() {
     <>
       <div className="relative space-y-4 p-0 sm:p-0 mb-4">
         <div className="flex items-center gap-2">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10 sm:h-10 sm:w-10">
-            <svg
-              aria-hidden="true"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 21s6-4.35 6-10a6 6 0 1 0-12 0c0 5.65 6 10 6 10Z"
-              />
-              <circle cx="12" cy="11" r="2" />
-            </svg>
+          <span className="inline-flex h-9 w-9 min-w-9 items-center justify-center rounded-sm bg-[var(--color-accent)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/10 sm:h-10 sm:w-10">
+            <MapPin className="h-5 w-5" />
           </span>
 
           <div>
             <h2 className="truncate text-sm font-semibold text-[var(--color-primary-strong)] sm:text-base sm:max-w-[490px] max-w-[260px]">
               Destino
             </h2>
-            <p className="text-xs font-medium text-[var(--color-muted)] sm:text-[13px]">
-              Escreva no campo onde você vai pescar, pode digitar a cidade,
-              bairro ou um ponto próximo, também pode navegar pelo mapa e clicar
-              diretamente no lugar desejado.
+            <p className="text-[8px] font-medium text-[var(--color-muted)] sm:text-[13px]">
+              Busque por cidade, bairro, região ou marque a localização exata no
+              mapa.
             </p>
           </div>
         </div>
