@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 
 import { DayPicker } from "react-day-picker";
@@ -9,6 +10,8 @@ import { planningStore } from "@/core/request";
 export function MyDatePicker() {
   const [selected, setSelected] = useState<Date>();
   const setProperty = planningStore((state) => state.setProperty);
+
+  console.log(selected);
 
   return (
     <div className=" items-center w-full flex flex-col justify-between gap-2">
@@ -33,9 +36,10 @@ export function MyDatePicker() {
         className="truncate text-sm font-semibold text-[var(--color-primary-strong)] min-h-80  sm:text-base"
         mode="single"
         selected={selected}
-        onSelect={(date) => {
-          if (date) {
-            setProperty("targetDate", date);
+        onSelect={(v) => {
+          if (v) {
+            setProperty("targetDate", v);
+            setSelected(v);
           }
         }}
       />

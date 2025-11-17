@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export type Step = {
   href: string;
@@ -41,6 +42,7 @@ export default function Stepper() {
   const activeIndex = currentIndex === -1 ? 0 : currentIndex;
   const isLocationIsFilled = planningStore((state) => state.isLocationIsFilled);
   const isTargetIsFilled = planningStore((state) => state.isTargetIsFilled);
+
   return (
     <nav aria-label="Progresso do planejamento" className="w-full">
       <ol className="flex w-full flex-wrap items-center gap-2.5 sm:gap-4">
@@ -73,6 +75,7 @@ export default function Stepper() {
               return isTargetIsFilled();
             }
           };
+
           return (
             <li
               key={href}
@@ -104,7 +107,7 @@ export default function Stepper() {
                         "absolute -top-1 -right-1 h-4 w-4 text-green-500 flex items-center justify-center rounded-full border bg-white"
                       )}
                     >
-                      <CheckIcon className=" h-5 w-5" strokeWidth={3} />
+                      <X className=" h-5 w-5 text-red-500" strokeWidth={3} />
                     </span>
                   )}
                 </span>
