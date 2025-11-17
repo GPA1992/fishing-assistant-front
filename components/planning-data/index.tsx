@@ -8,7 +8,8 @@ export default function PlanningData() {
   const selected = planningStore((state) => state.selected);
   const markLoading = planningStore((state) => state.markLoading);
   const searcLoading = planningStore((state) => state.searcLoading);
-  const today = new Intl.DateTimeFormat("pt-BR").format(new Date());
+  const targetDate = planningStore((state) => state.targetDate);
+
   const loading = markLoading || searcLoading;
 
   return (
@@ -54,6 +55,23 @@ export default function PlanningData() {
                     Toque no mapa para definir o local.
                   </p>
                 )}
+                <div className="relative flex flex-wrap items-center gap-2]">
+                  {targetDate && (
+                    <span className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-surface-muted)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-primary-strong)]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-primary-strong)]" />
+                      Data · {targetDate}
+                    </span>
+                  )}
+                  {selected ? (
+                    <span className="text-xs font-medium text-[var(--color-primary)]">
+                      Mantenha a seleção para atualizar o mapa.
+                    </span>
+                  ) : (
+                    <span className="text-xs font-medium text-[var(--color-muted)]">
+                      Nenhum local definido ainda.
+                    </span>
+                  )}
+                </div>
               </>
             )}
           </div>
@@ -65,22 +83,6 @@ export default function PlanningData() {
             className="self-start sm:self-center"
           />
         ) : null} */}
-      </div>
-
-      <div className="relative flex flex-wrap items-center gap-2 border-t border-[color-mix(in_srgb,var(--color-border)_70%,transparent)] px-4 py-3 sm:px-5">
-        <span className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-surface-muted)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-primary-strong)]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-primary-strong)]" />
-          Data · {today}
-        </span>
-        {selected ? (
-          <span className="text-xs font-medium text-[var(--color-primary)]">
-            Mantenha a seleção para atualizar o mapa.
-          </span>
-        ) : (
-          <span className="text-xs font-medium text-[var(--color-muted)]">
-            Nenhum local definido ainda.
-          </span>
-        )}
       </div>
     </section>
   );

@@ -31,7 +31,7 @@ export default function RootLayout({
         <Providers>
           <main className="min-h-screen min-w-screen">
             {/*       <ThemePanel /> */}
-            <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 pb-10 pt-6 sm:gap-10">
+            <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 pb-10 pt-6">
               {children}
             </div>
           </main>

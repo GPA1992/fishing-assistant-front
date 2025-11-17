@@ -104,7 +104,7 @@ export default function Stepper() {
                         "absolute -top-1 -right-1 h-4 w-4 text-green-500 flex items-center justify-center rounded-full border bg-white"
                       )}
                     >
-                      <X className=" h-3 w-3 text-red-500" strokeWidth={3} />
+                      <CheckIcon className=" h-5 w-5" strokeWidth={3} />
                     </span>
                   )}
                 </span>

@@ -6,7 +6,7 @@ import { type LocationSearchResult, type LocationSelection } from "../types";
 type State = {
   searcLoading: boolean;
   markLoading: boolean;
-  targetDate: string | null;
+  targetDate: Date | null;
   targetHour: string | null;
   results: LocationSearchResult[];
   error: string | null;
@@ -59,7 +59,7 @@ export const planningStore = create<State & Actions>()(
         resetSelection: () => set((state) => ({ ...state, selected: null })),
         isTargetIsFilled: () => {
           const { targetDate, targetHour } = get();
-          return Boolean(targetDate && targetHour);
+          return Boolean(targetDate);
         },
         isLocationIsFilled: () => {
           const { selected } = get();

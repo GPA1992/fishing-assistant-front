@@ -52,7 +52,7 @@ export default function Map({
     ? selected?.center ?? derivedCenter
     : manualPosition ?? selected?.center ?? derivedCenter;
 
-  const mapContainerClassName = `h-[35vh] min-h-[220px] sm:h-[40vh] sm:min-h-[260px] md:h-[45vh] md:min-h-[300px] w-full ${
+  const mapContainerClassName = `h-[38vh] min-h-[220px] sm:h-[40vh] sm:min-h-[260px] md:h-[45vh] md:min-h-[300px] w-full ${
     className ?? ""
   }`;
 
@@ -78,7 +78,7 @@ export default function Map({
   }
 
   return (
-    <div>
+    <>
       <div className="relative z-0 overflow-hidden rounded-2xl shadow-2xl shadow-emerald-900/10 border-none">
         <MapContainer
           center={markerPosition}
@@ -106,6 +106,6 @@ export default function Map({
       <span className="text-sm italic text-[var(--color-muted)] mb-3 pl-1 px-1">
         Arraste, de zomm, clique para marcar o local.
       </span>
-    </div>
+    </>
   );
 }

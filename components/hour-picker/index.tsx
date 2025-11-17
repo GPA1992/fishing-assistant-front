@@ -23,7 +23,6 @@ export function HourPicker() {
 
   return (
     <>
-      {" "}
       <span
         className={
           "text-xs font-medium text-[var(--color-muted)] sm:text-[13px] mb-2"
@@ -31,7 +30,7 @@ export function HourPicker() {
       >
         Selecione a hora que pretende pescar
       </span>
-      <div className="relative w-full flex flex-row items-center text-sm font-medium tracking-tight text-slate-800">
+      <div className="relative w-full flex flex-row items-center justify-center text-sm font-medium tracking-tight text-slate-800">
         <span className="text-slate-500 mr-1">{"<"}</span>
         <div
           ref={scrollRef}
@@ -80,9 +79,9 @@ export function HourPicker() {
                   key={hour}
                   type="button"
                   onClick={() => setSelectedHour(index)}
-                  className={`relative select-none text-left tabular-nums transition-colors ${
+                  className={`relative select-none text-left tabular-nums transition-colors p-[2px] ${
                     isSelected
-                      ? "text-slate-900 bg-[var(--color-accent)]/60 rounded  p-[2px]"
+                      ? "text-slate-900 bg-[var(--color-accent)]/60 rounded  "
                       : "text-slate-500 hover:text-slate-800"
                   }`}
                 >
