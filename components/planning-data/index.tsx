@@ -39,7 +39,11 @@ export default function PlanningData() {
                   Destino selecionado
                 </p>
                 <h2 className="truncate text-sm font-semibold text-[var(--color-primary-strong)] sm:text-base sm:max-w-[490px] max-w-[260px]">
-                  {selected ? selected.name : "Escolha um ponto no mapa"}
+                  {selected?.address?.city &&
+                    selected.locationName &&
+                    `${selected.address.city}, ${selected.locationName}`}
+
+                  {selected && !selected.locationName && `${selected?.name}`}
                 </h2>
                 {selected ? (
                   <p className="text-xs font-medium text-[var(--color-muted)] sm:text-[13px]">

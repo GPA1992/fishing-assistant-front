@@ -34,9 +34,11 @@ function parseResult(raw: RawNominatimResult): LocationSearchResult {
 
   return {
     id: raw.place_id,
+    address: { ...raw.address, city, neighbourhood: neighborhood },
     name: `${raw.name ? raw.name + "," : ""} ${formattedName}`,
     center: [parseFloat(raw.lat), parseFloat(raw.lon)],
     boundingBox: [south, west, north, east] as BoundingBox,
+    locationName: raw.name,
   };
 }
 
