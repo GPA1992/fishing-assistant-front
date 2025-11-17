@@ -21,7 +21,7 @@ export async function searchLocationsAction(
     return;
   }
 
-  setProperty("loading", true);
+  setProperty("searcLoading", true);
   setProperty("error", null);
 
   try {
@@ -33,7 +33,7 @@ export async function searchLocationsAction(
     }
     setProperty("results", []);
   } finally {
-    setProperty("loading", false);
+    setProperty("searcLoading", false);
   }
 }
 
@@ -48,11 +48,15 @@ export async function searchLocationsByBoundingBoxAction({
 }: LocationSearchByBoundingBoxPayload) {
   const { setProperty } = locationStore.getState();
 
-  setProperty("loading", true);
+  setProperty("markLoading", true);
   setProperty("error", null);
 
   try {
-    const results = await searchLocationsByBoundingBoxService(term, bbox, signal);
+    const results = await searchLocationsByBoundingBoxService(
+      term,
+      bbox,
+      signal
+    );
     setProperty("results", results);
     setProperty("selected", results[0] ?? null);
   } catch (error) {
@@ -63,7 +67,7 @@ export async function searchLocationsByBoundingBoxAction({
     setProperty("results", []);
     setProperty("selected", null);
   } finally {
-    setProperty("loading", false);
+    setProperty("markLoading", false);
   }
 }
 

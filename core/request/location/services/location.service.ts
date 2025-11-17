@@ -29,7 +29,7 @@ function parseResult(raw: RawNominatimResult): LocationSearchResult {
   const detail = raw.address?.road;
 
   const formattedName =
-    [neighborhood, city, state, postcode, detail].filter(Boolean).join(", ") ||
+    [city, state, neighborhood, postcode, detail].filter(Boolean).join(", ") ||
     raw.display_name;
 
   return {

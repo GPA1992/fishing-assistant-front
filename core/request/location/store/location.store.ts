@@ -1,13 +1,11 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { customStorage } from "../../common";
-import {
-  type LocationSearchResult,
-  type LocationSelection,
-} from "../types";
+import { type LocationSearchResult, type LocationSelection } from "../types";
 
 type State = {
-  loading: boolean;
+  searcLoading: boolean;
+  markLoading: boolean;
   results: LocationSearchResult[];
   error: string | null;
   selected: LocationSelection | null;
@@ -15,7 +13,8 @@ type State = {
 };
 
 const initial: State = {
-  loading: false,
+  searcLoading: false,
+  markLoading: false,
   results: [],
   error: null,
   selected: null,
@@ -30,8 +29,12 @@ type Actions = {
   setSyncViewEnabled: (value: boolean) => void;
 };
 
-const initialSearchState: Pick<State, "loading" | "results" | "error"> = {
-  loading: initial.loading,
+const initialSearchState: Pick<
+  State,
+  "searcLoading" | "markLoading" | "results" | "error"
+> = {
+  markLoading: initial.markLoading,
+  searcLoading: initial.searcLoading,
   results: initial.results,
   error: initial.error,
 };
@@ -45,7 +48,8 @@ export const locationStore = create<State & Actions>()(
         setSyncViewEnabled: (value) =>
           set((state) => ({ ...state, syncViewEnabled: value })),
         reset: () => set(initial),
-        resetSearch: () => set((state) => ({ ...state, ...initialSearchState })),
+        resetSearch: () =>
+          set((state) => ({ ...state, ...initialSearchState })),
         resetSelection: () => set((state) => ({ ...state, selected: null })),
       }),
       {

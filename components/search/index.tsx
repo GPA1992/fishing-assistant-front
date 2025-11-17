@@ -15,7 +15,7 @@ export default function Search() {
   const debouncedTerm = useDebounce(term, 300);
   const trimmedTerm = debouncedTerm.trim();
   const results = locationStore((state) => state.results);
-  const loading = locationStore((state) => state.loading);
+  const loading = locationStore((state) => state.searcLoading);
 
   useEffect(() => {
     setOpen(trimmedTerm.length > 0);
