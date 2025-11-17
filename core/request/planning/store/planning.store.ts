@@ -6,6 +6,8 @@ import { type LocationSearchResult, type LocationSelection } from "../types";
 type State = {
   searcLoading: boolean;
   markLoading: boolean;
+  targetDate: string | null;
+  targetHour: string | null;
   results: LocationSearchResult[];
   error: string | null;
   selected: LocationSelection | null;
@@ -15,6 +17,8 @@ type State = {
 const initial: State = {
   searcLoading: false,
   markLoading: false,
+  targetDate: null,
+  targetHour: null,
   results: [],
   error: null,
   selected: null,
@@ -27,6 +31,8 @@ type Actions = {
   resetSearch: () => void;
   resetSelection: () => void;
   setSyncViewEnabled: (value: boolean) => void;
+  isTargetIsFilled: () => boolean;
+  isLocationIsFilled: () => boolean;
 };
 
 const initialSearchState: Pick<
@@ -42,7 +48,7 @@ const initialSearchState: Pick<
 export const planningStore = create<State & Actions>()(
   devtools(
     persist(
-      (set) => ({
+      (set, get) => ({
         ...initial,
         setProperty: (k, v) => set((state) => ({ ...state, [k]: v })),
         setSyncViewEnabled: (value) =>
@@ -51,6 +57,14 @@ export const planningStore = create<State & Actions>()(
         resetSearch: () =>
           set((state) => ({ ...state, ...initialSearchState })),
         resetSelection: () => set((state) => ({ ...state, selected: null })),
+        isTargetIsFilled: () => {
+          const { targetDate, targetHour } = get();
+          return Boolean(targetDate && targetHour);
+        },
+        isLocationIsFilled: () => {
+          const { selected } = get();
+          return Boolean(selected);
+        },
       }),
       {
         name: "planningStore",

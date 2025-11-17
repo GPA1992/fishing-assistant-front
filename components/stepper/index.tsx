@@ -39,8 +39,8 @@ export default function Stepper() {
   const pathname = usePathname();
   const currentIndex = steps.findIndex(({ href }) => pathname.startsWith(href));
   const activeIndex = currentIndex === -1 ? 0 : currentIndex;
-  const selected = planningStore((state) => state.selected);
-
+  const isLocationIsFilled = planningStore((state) => state.isLocationIsFilled);
+  const isTargetIsFilled = planningStore((state) => state.isTargetIsFilled);
   return (
     <nav aria-label="Progresso do planejamento" className="w-full">
       <ol className="flex w-full flex-wrap items-center gap-2.5 sm:gap-4">
@@ -53,7 +53,7 @@ export default function Stepper() {
               "border-transparent border-[var(--color-accent)] bg-[var(--color-surface)] text-[var(--color-primary-strong)] shadow-inner shadow-emerald-900/15",
             completed &&
               !active &&
-              "border-[var(--color-border)] bg-[var(--color-accent)]/60 text-[var(--color-primary-strong)]",
+              "border-green-200 bg-[var(--color-accent)]/60 text-[var(--color-primary-strong)]",
             !completed &&
               !active &&
               "border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-muted)]"
@@ -65,8 +65,14 @@ export default function Stepper() {
               : "bg-[var(--color-surface-muted)]"
           );
 
-          const isLocationSet =
-            href === "/planejamento/localizacao" && selected;
+          const isStepperIsFilled = (steper: string) => {
+            if (steper === "/planejamento/localizacao") {
+              return isLocationIsFilled();
+            }
+            if (steper === "/planejamento/dia-horario") {
+              return isTargetIsFilled();
+            }
+          };
           return (
             <li
               key={href}
@@ -83,16 +89,16 @@ export default function Stepper() {
                     strokeWidth={2.4}
                   />
 
-                  {isLocationSet && (
+                  {isStepperIsFilled(href) && (
                     <span
                       className={cn(
-                        "absolute -top-1 -right-1 h-4 w-4 text-green-500 flex items-center justify-center rounded-full border bg-white"
+                        "absolute -top-0.5 p-[2px] -right-2 h-[18px] w-[18px] text-white flex items-center justify-center rounded-full border border-[var(--color-border)] bg-green-500"
                       )}
                     >
-                      <CheckIcon className=" h-3 w-3" strokeWidth={3} />
+                      <CheckIcon className=" h-5 w-5" strokeWidth={3} />
                     </span>
                   )}
-                  {!isLocationSet && completed && (
+                  {!isStepperIsFilled(href) && completed && (
                     <span
                       className={cn(
                         "absolute -top-1 -right-1 h-4 w-4 text-green-500 flex items-center justify-center rounded-full border bg-white"
