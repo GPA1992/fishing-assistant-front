@@ -39,7 +39,7 @@ const initialSearchState: Pick<
   error: initial.error,
 };
 
-export const locationStore = create<State & Actions>()(
+export const planningStore = create<State & Actions>()(
   devtools(
     persist(
       (set) => ({
@@ -53,7 +53,7 @@ export const locationStore = create<State & Actions>()(
         resetSelection: () => set((state) => ({ ...state, selected: null })),
       }),
       {
-        name: "locationStore",
+        name: "planningStore",
         storage: createJSONStorage(() => customStorage),
       }
     )

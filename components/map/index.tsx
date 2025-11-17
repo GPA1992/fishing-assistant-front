@@ -10,7 +10,7 @@ import { boundingBoxCenter } from "./bounding-box";
 import { ensureDefaultMarkerConfig } from "./configure-default-marker";
 import {
   type BoundingBox,
-  locationStore,
+  planningStore,
   searchLocationsByBoundingBoxAction,
 } from "@/core/request";
 
@@ -32,11 +32,11 @@ export default function Map({
   zoom = DEFAULT_ZOOM,
   className,
 }: MapProps) {
-  const selected = locationStore((state) => state.selected);
-  const syncViewEnabled = locationStore((state) => state.syncViewEnabled);
-  const setSyncViewEnabled = locationStore((state) => state.setSyncViewEnabled);
-  const markLoading = locationStore((state) => state.markLoading);
-  const searcLoading = locationStore((state) => state.searcLoading);
+  const selected = planningStore((state) => state.selected);
+  const syncViewEnabled = planningStore((state) => state.syncViewEnabled);
+  const setSyncViewEnabled = planningStore((state) => state.setSyncViewEnabled);
+  const markLoading = planningStore((state) => state.markLoading);
+  const searcLoading = planningStore((state) => state.searcLoading);
   const activeBBox = selected?.boundingBox ?? bbox;
 
   const derivedCenter = useMemo(() => {
@@ -71,7 +71,7 @@ export default function Map({
     } catch (error) {
       console.error("Erro ao buscar localização pelo mapa", error);
     }
-    const latestSelection = locationStore.getState().selected;
+    const latestSelection = planningStore.getState().selected;
     if (latestSelection) {
       setManualPosition(position);
     }

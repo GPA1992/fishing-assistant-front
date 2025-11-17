@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  locationStore,
+  planningStore,
   resetLocationSearchAction,
   searchLocationsAction,
   setSelectedLocationAction,
@@ -14,8 +14,8 @@ export default function Search() {
 
   const debouncedTerm = useDebounce(term, 300);
   const trimmedTerm = debouncedTerm.trim();
-  const results = locationStore((state) => state.results);
-  const loading = locationStore((state) => state.searcLoading);
+  const results = planningStore((state) => state.results);
+  const loading = planningStore((state) => state.searcLoading);
 
   useEffect(() => {
     setOpen(trimmedTerm.length > 0);

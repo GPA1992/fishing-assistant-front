@@ -1,5 +1,5 @@
 import axios from "axios";
-import { locationStore } from "../store/location.store";
+import { planningStore } from "../store/planning.store";
 import {
   searchLocationsByBoundingBoxService,
   searchLocationsService,
@@ -14,7 +14,7 @@ export async function searchLocationsAction(
   signal?: AbortSignal
 ) {
   const trimmedTerm = term.trim();
-  const { setProperty, resetSearch } = locationStore.getState();
+  const { setProperty, resetSearch } = planningStore.getState();
 
   if (!trimmedTerm) {
     resetSearch();
@@ -38,7 +38,7 @@ export async function searchLocationsAction(
 }
 
 export function resetLocationSearchAction() {
-  locationStore.getState().resetSearch();
+  planningStore.getState().resetSearch();
 }
 
 export async function searchLocationsByBoundingBoxAction({
@@ -46,7 +46,7 @@ export async function searchLocationsByBoundingBoxAction({
   bbox,
   signal,
 }: LocationSearchByBoundingBoxPayload) {
-  const { setProperty } = locationStore.getState();
+  const { setProperty } = planningStore.getState();
 
   setProperty("markLoading", true);
   setProperty("error", null);
@@ -74,15 +74,15 @@ export async function searchLocationsByBoundingBoxAction({
 export function setSelectedLocationAction(
   location: LocationSelection | null
 ): void {
-  const { setProperty, setSyncViewEnabled } = locationStore.getState();
+  const { setProperty, setSyncViewEnabled } = planningStore.getState();
   setProperty("selected", location);
   setSyncViewEnabled(true);
 }
 
 export function getSelectedLocation(): LocationSelection | null {
-  return locationStore.getState().selected;
+  return planningStore.getState().selected;
 }
 
 export function resetSelectedLocationAction() {
-  locationStore.getState().resetSelection();
+  planningStore.getState().resetSelection();
 }

@@ -1,13 +1,13 @@
 "use client";
 
-import { locationStore } from "@/core/request";
+import { planningStore } from "@/core/request";
 import { LoadingInline } from "../loading";
 import { MapPinCheckInside } from "lucide-react";
 
 export default function PlanningData() {
-  const selected = locationStore((state) => state.selected);
-  const markLoading = locationStore((state) => state.markLoading);
-  const searcLoading = locationStore((state) => state.searcLoading);
+  const selected = planningStore((state) => state.selected);
+  const markLoading = planningStore((state) => state.markLoading);
+  const searcLoading = planningStore((state) => state.searcLoading);
   const today = new Intl.DateTimeFormat("pt-BR").format(new Date());
   const loading = markLoading || searcLoading;
 

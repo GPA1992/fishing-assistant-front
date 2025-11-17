@@ -1,6 +1,6 @@
 # Visão geral
 
-Aplicação Next.js (App Router) para planejamento de localização com duas entradas principais no fluxo UX: busca textual e interação com mapa. A UI é composta de componentes client-side, usa Leaflet via `react-leaflet` para mapa e Zustand (`locationStore`) para estado de localização compartilhado. Integra-se ao Nominatim (OpenStreetMap) para geocodificação e pesquisa por bounding box.
+Aplicação Next.js (App Router) para planejamento de localização com duas entradas principais no fluxo UX: busca textual e interação com mapa. A UI é composta de componentes client-side, usa Leaflet via `react-leaflet` para mapa e Zustand (`planningStore`) para estado de localização compartilhado. Integra-se ao Nominatim (OpenStreetMap) para geocodificação e pesquisa por bounding box.
 
 # Organização
 
@@ -9,7 +9,7 @@ Aplicação Next.js (App Router) para planejamento de localização com duas ent
 - `components/map/`: mapa Leaflet com clique para selecionar ponto, sincronização com bounding box e estado global.
 - `core/request/`: camada de dados (tipos, store Zustand, serviços HTTP e actions); `http/axios.config.ts` configura o cliente Nominatim.
 
-# Estados (locationStore)
+# Estados (planningStore)
 
 - Store persistida com Zustand (`core/request/location/store/location.store.ts`), usando `customStorage` (localStorage no cliente, fallback em memória).
 - Shape: `loading`, `results: LocationSearchResult[]`, `error`, `selected: LocationSelection | null`.
@@ -46,7 +46,7 @@ flowchart LR
     M[Map]
   end
   subgraph State
-    LS[Zustand<br/>locationStore]
+    LS[Zustand<br/>planningStore]
   end
   subgraph API
     NOM[Nominatim API]
@@ -71,7 +71,7 @@ flowchart LR
 sequenceDiagram
   participant User
   participant Search
-  participant Store as locationStore
+  participant Store as planningStore
   participant Service as Nominatim service
   participant Map
 
@@ -93,7 +93,7 @@ sequenceDiagram
 
 # Como tudo se conecta
 
-- A UI lê diretamente do `locationStore` para mostrar resultados, estado de carregamento e seleção ativa.
+- A UI lê diretamente do `planningStore` para mostrar resultados, estado de carregamento e seleção ativa.
 - Actions são a única porta de escrita no store; elas orquestram chamadas a serviços HTTP e tratam cancelamentos/erros.
 - Serviços encapsulam chamadas ao Nominatim, transformando `RawNominatimResult` em `LocationSearchResult` (com `BoundingBox` numérico).
 - O mapa reage tanto a seleção manual (clique) quanto a seleção de resultados, mantendo sincronizados marcador e viewport. Search, por sua vez, exibe o mesmo estado compartilhado, garantindo consistência entre mapa e lista.

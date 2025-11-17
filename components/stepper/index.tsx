@@ -1,5 +1,5 @@
 "use client";
-import { locationStore } from "@/core/request";
+import { planningStore } from "@/core/request";
 import { cn } from "@/lib/utils";
 import {
   CalendarClock,
@@ -39,7 +39,7 @@ export default function Stepper() {
   const pathname = usePathname();
   const currentIndex = steps.findIndex(({ href }) => pathname.startsWith(href));
   const activeIndex = currentIndex === -1 ? 0 : currentIndex;
-  const selected = locationStore((state) => state.selected);
+  const selected = planningStore((state) => state.selected);
 
   return (
     <nav aria-label="Progresso do planejamento" className="w-full">
